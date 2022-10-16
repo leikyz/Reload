@@ -4256,6 +4256,7 @@ MonoBehaviour:
   weapon: {fileID: 64181912347075429}
   isAiming: 0
   isShooting: 0
+  isReloading: 0
 --- !u!114 &3716419389600441585
 MonoBehaviour:
   m_ObjectHideFlags: 0

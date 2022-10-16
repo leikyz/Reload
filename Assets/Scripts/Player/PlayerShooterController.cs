@@ -10,6 +10,7 @@ public class PlayerShooterController : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction aimAction;
     private InputAction shootAction;
+    private InputAction reloadAction;
 
     [SerializeField] private Image crossHair;
     [SerializeField] private Rig aimRig;
@@ -23,6 +24,7 @@ public class PlayerShooterController : MonoBehaviour
 
     [SerializeField] private bool isAiming = false;
     [SerializeField] private bool isShooting = false;
+    [SerializeField] private bool isReloading = false;
 
     private float aimRigWeight;
     private float shakeFrequency;
@@ -41,12 +43,16 @@ public class PlayerShooterController : MonoBehaviour
 
         aimAction = playerInput.actions["Aim"];
         shootAction = playerInput.actions["Shoot"];
+        reloadAction = playerInput.actions["Reload"];
 
         aimAction.performed += OnAimStarted;
         aimAction.canceled += OnAimStopped;
 
         shootAction.performed += OnShootStarted;
         shootAction.canceled += OnShootStopped;
+
+        reloadAction.performed += OnReloadStarted;
+        reloadAction.canceled += OnReloadStopped;
     }
 
     private void OnAimStarted(InputAction.CallbackContext obj)
@@ -76,9 +82,17 @@ public class PlayerShooterController : MonoBehaviour
 
     private void OnShootStarted(InputAction.CallbackContext obj)
     {
-        isShooting = true;
-        shakeFrequency = 1.2f;
-        shakeAmplitude = 0.3f;
+        if (weapon.CanShoot())
+        {
+            isShooting = true;
+            shakeFrequency = 1.2f;
+            shakeAmplitude = 0.3f;
+        }
+        else
+        {
+            isShooting = false;
+            weapon.StopShoot();
+        }
     }
     private void OnShootStopped(InputAction.CallbackContext obj)
     {
@@ -86,6 +100,19 @@ public class PlayerShooterController : MonoBehaviour
         weapon.StopShoot();
         shakeAmplitude = 0;
         shakeFrequency = 0;
+    }
+
+    private void OnReloadStarted(InputAction.CallbackContext obj)
+    {
+        aimVirtualCamera.gameObject.SetActive(false);
+        isReloading = true;
+        animator.SetBool("IsReloading", true);
+    }
+
+    private void OnReloadStopped(InputAction.CallbackContext obj)
+    {
+        isReloading = false;
+        animator.SetBool("IsReloading", false);
     }
 
     void Update()
@@ -103,8 +130,8 @@ public class PlayerShooterController : MonoBehaviour
         {         
             weapon.Shoot();
         }
-        else
-            weapon.StopShoot();
+        //else
+        //    weapon.StopShoot();
 
         ShakeCamera(shakeAmplitude, shakeFrequency);
     }
