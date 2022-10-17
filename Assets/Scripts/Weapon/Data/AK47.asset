@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b505dd3063db042846a1748c0a93d9, type: 3}
   m_Name: AK47
   m_EditorClassIdentifier: 
-  named: 
+  named: AK47
   visual: {fileID: 21300000, guid: c3443de0f4ca50240adde41e2ef733e6, type: 3}
   prefab: {fileID: 1724916991178526445, guid: f5a31318fde474342972b4a5d8d6a78c, type: 3}
   bulletsAmountMax: 30

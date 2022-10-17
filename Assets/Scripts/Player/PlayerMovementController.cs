@@ -66,6 +66,7 @@ public class PlayerMovementController : MonoBehaviour
         jumpAction.performed += OnJumpStarted;
         jumpAction.canceled += OnJumpStopped;
 
+
     }
     #region update
     void Update()

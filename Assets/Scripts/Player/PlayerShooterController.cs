@@ -14,6 +14,7 @@ public class PlayerShooterController : MonoBehaviour
 
     [SerializeField] private Image crossHair;
     [SerializeField] private Rig aimRig;
+    [SerializeField] private Rig leftHandRig;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private LayerMask aimColliderMask = new();
     [SerializeField] private PlayerMovementController playerMovementController;
@@ -26,9 +27,10 @@ public class PlayerShooterController : MonoBehaviour
     [SerializeField] private bool isShooting = false;
     [SerializeField] private bool isReloading = false;
 
-    private float aimRigWeight;
-    private float shakeFrequency;
-    private float shakeAmplitude;
+    [SerializeField] private float aimRigWeight;
+    private float leftHandRigWeight;
+    //private float shakeFrequency;
+    //private float shakeAmplitude;
 
     public bool IsAiming
     {
@@ -36,8 +38,21 @@ public class PlayerShooterController : MonoBehaviour
         set { isAiming = value; }
     }
 
+    public bool IsReloading
+    {
+        get { return isReloading; }
+        set { isReloading = value; }
+    }
+    private void Awake()
+    {
+        //QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 144;
+    }
+
     private void Start()
     {
+        //weapon.StopShoot();
+
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
 
@@ -52,19 +67,23 @@ public class PlayerShooterController : MonoBehaviour
         shootAction.canceled += OnShootStopped;
 
         reloadAction.performed += OnReloadStarted;
-        reloadAction.canceled += OnReloadStopped;
+        //reloadAction.canceled += OnReloadStopped;
     }
 
     private void OnAimStarted(InputAction.CallbackContext obj)
     {
-        animator.applyRootMotion = false;
-        isAiming = true;
-        crossHair.enabled = true;
-        aimRigWeight = 1;
-        playerMovementController.RotateOnMove = false;
-        playerMovementController.RotationSpeed = 2f;
-        aimVirtualCamera.gameObject.SetActive(true);
-       
+        //if (!isReloading)
+        //{
+            animator.applyRootMotion = false;
+            isAiming = true;
+            crossHair.enabled = true;
+            aimRigWeight = 1;
+            playerMovementController.RotateOnMove = false;
+            playerMovementController.RotationSpeed = 2f;
+            aimVirtualCamera.gameObject.SetActive(true);
+
+        //}
+
     }
 
     private void OnAimStopped(InputAction.CallbackContext obj)
@@ -82,64 +101,82 @@ public class PlayerShooterController : MonoBehaviour
 
     private void OnShootStarted(InputAction.CallbackContext obj)
     {
-        if (weapon.CanShoot())
-        {
-            isShooting = true;
-            shakeFrequency = 1.2f;
-            shakeAmplitude = 0.3f;
-        }
-        else
-        {
-            isShooting = false;
-            weapon.StopShoot();
-        }
+        //if (!isReloading && isAiming)
+        //{
+            if (weapon.CanShoot())
+            {
+                isShooting = true;
+                //shakeFrequency = 1.2f;
+                //shakeAmplitude = 0.3f;
+            }
+            else
+            {
+                isShooting = false;
+                weapon.StopShoot();
+            }
+        //}
+        
     }
     private void OnShootStopped(InputAction.CallbackContext obj)
     {
         isShooting = false;
         weapon.StopShoot();
-        shakeAmplitude = 0;
-        shakeFrequency = 0;
+        //shakeAmplitude = 0;
+        //shakeFrequency = 0;
     }
 
     private void OnReloadStarted(InputAction.CallbackContext obj)
     {
-        aimVirtualCamera.gameObject.SetActive(false);
+        leftHandRigWeight = 0;
         isReloading = true;
         animator.SetBool("IsReloading", true);
+
+        //if (isAiming)
+        //    aimRigWeight = 0;
     }
 
-    private void OnReloadStopped(InputAction.CallbackContext obj)
+    private void OnReloadStopped()
     {
+        //reloadAction.performed -= OnReloadStarted;
+        leftHandRigWeight = 1;
         isReloading = false;
         animator.SetBool("IsReloading", false);
+        weapon.Reload();
     }
 
     void Update()
     {
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
+        leftHandRig.weight = Mathf.Lerp(leftHandRig.weight, leftHandRigWeight, Time.deltaTime * 20f);
         RotatePlayerOnAimed(MousePosition());
         HandleAiming();
         HandleShooting();
+        Debug.Log(aimAction.IsPressed());
   
     }
 
     private void HandleShooting()
     {
-        if (weapon.CanShoot() && isShooting)
+        if (weapon.CanShoot() && isShooting && !isReloading && IsAiming)
         {         
             weapon.Shoot();
         }
         //else
+        //{
         //    weapon.StopShoot();
+        //}
 
-        ShakeCamera(shakeAmplitude, shakeFrequency);
+
+        //ShakeCamera(shakeAmplitude, shakeFrequency);
     }
 
     private void HandleAiming()
-    {
+    { 
         if (isAiming)
         {
+            //if (!isReloading)
+            //    OnAimStarted(aimAction.performed);
+
             animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 1f, Time.deltaTime * 5f));
         }
     }
@@ -175,16 +212,16 @@ public class PlayerShooterController : MonoBehaviour
         }      
     }
 
-    private void ShakeCamera(float amplitude, float frequency)
-    {
-        if (!weapon.CheckBullets())
-        {
-            amplitude = 0;
-            frequency = 0;
-        }
-        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = aimVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+    //private void ShakeCamera(float amplitude, float frequency)
+    //{
+    //    if (!weapon.CheckBullets())
+    //    {
+    //        amplitude = 0;
+    //        frequency = 0;
+    //    }
+    //    CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = aimVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, amplitude, 2f);
-        cinemachineBasicMultiChannelPerlin.m_FrequencyGain = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, frequency, 2f);
-    }
+    //    cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, amplitude, 2f);
+    //    cinemachineBasicMultiChannelPerlin.m_FrequencyGain = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, frequency, 2f);
+    //}
 }

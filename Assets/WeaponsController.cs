@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,9 +20,13 @@ public class WeaponsController : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
 
     private bool isUsed = false;
+   [SerializeField] private Cinemachine.CinemachineVirtualCamera aimVirtualCamera;
 
     //public Text _bulletsInLoaderText;
     //public Text _bulletsInAllText;
+
+    private float shakeFrequency;
+    private float shakeAmplitude;
 
     public bool IsUsed
     {
@@ -49,14 +54,14 @@ public class WeaponsController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(CanShoot());
+        //Debug.Log(CanShoot());
         //_bulletsInLoaderText.text = _bulletsInLoader.ToString();
         //_bulletsInAllText.text = _bulletsInAll.ToString();
     }
 
     public bool CanShoot()
     {
-        return _bulletsInLoader > 0 && readyToShoot;
+        return _bulletsInLoader > 0 && readyToShoot && !shooterController.IsReloading;
     }
 
     public bool CheckBullets()
@@ -64,9 +69,14 @@ public class WeaponsController : MonoBehaviour
         return BulletsInLoader > 0;
     }
 
-    private void Reload()
+    public void Reload()
     {
-        
+        var bulletNeed = weapon.bulletsAmountMax - BulletsInLoader;
+        if (_bulletsInAll > weapon.bulletsAmountMax)
+        {
+            BulletsInLoader += bulletNeed;
+            _bulletsInAll -= bulletNeed;
+        }
     }
 
     public void Shoot()
@@ -76,19 +86,39 @@ public class WeaponsController : MonoBehaviour
         audioSource.Play(0);
         fxShoot.Play();
         BulletsInLoader--;
+
         var lastBullet = Instantiate(pfBulletProjectile, spawnBulletProjectile.position, Quaternion.LookRotation(((shooterController.MousePosition() + Vector3.up) - spawnBulletProjectile.position).normalized, Vector3.up));
         lastBullet.GetComponent<Rigidbody>().velocity = transform.forward * 50f;
+
+        ShakeCamera(0.2f, 1f);
+
+
         Invoke("ResetShot", 0.2f);
     }
 
     public void StopShoot()
     { 
        fxShoot.Stop();
+        //reset camera shake
+       ShakeCamera(0f, 0f);
     }
 
 
     private void ResetShot()
     {
         readyToShoot = true;
+    }
+
+    private void ShakeCamera(float amplitude, float frequency)
+    {
+        if (!CheckBullets())
+        {
+            amplitude = 0;
+            frequency = 0;
+        }
+        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = aimVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, amplitude, 10f);
+        cinemachineBasicMultiChannelPerlin.m_FrequencyGain = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, frequency, 10f);
     }
 }
