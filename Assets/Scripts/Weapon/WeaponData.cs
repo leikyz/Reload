@@ -13,6 +13,7 @@ public class WeaponData : ScriptableObject
     public GameObject bulletPrefab;
     public int bulletSpeed;
     public AudioClip shootSound;
+    public AudioClip reloadSound;
     public WeaponTypeEnum weaponType;
     public float shakeAmplitude;
     public float shakeFrequency;

@@ -172,6 +172,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "WeaponWheel",
+            "id": "786cf703-a156-4fbc-9901-b1e251454594",
+            "actions": [
+                {
+                    "name": "OpenWeaponWheel",
+                    "type": "Button",
+                    "id": "bc823a0f-1d12-4f0c-aaa8-ac5801b66e4c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3021695b-b169-4e61-9a0d-ad87c6ed9877",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenWeaponWheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

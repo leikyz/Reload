@@ -14,23 +14,22 @@ public class PlayerShooterController : MonoBehaviour
 
     [SerializeField] private Image crossHair;
     [SerializeField] private Rig aimRig;
-    [SerializeField] private Rig leftHandRig;
+    [SerializeField] private Rig armedRig;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private LayerMask aimColliderMask = new();
-    [SerializeField] private PlayerMovementController playerMovementController;
+
     [SerializeField] private Transform debugTransform;
     [SerializeField] private WeaponsController weapon;
 
     private Animator animator;
+    private PlayerMovementController playerMovementController;
 
     [SerializeField] private bool isAiming = false;
     [SerializeField] private bool isShooting = false;
     [SerializeField] private bool isReloading = false;
 
-    [SerializeField] private float aimRigWeight;
-    private float leftHandRigWeight;
-    //private float shakeFrequency;
-    //private float shakeAmplitude;
+    private float aimRigWeight;
+    private float armedRigWeight = 1;
 
     public bool IsAiming
     {
@@ -45,14 +44,11 @@ public class PlayerShooterController : MonoBehaviour
     }
     private void Awake()
     {
-        //QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 144;
     }
 
     private void Start()
     {
-        //weapon.StopShoot();
-
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
 
@@ -67,23 +63,20 @@ public class PlayerShooterController : MonoBehaviour
         shootAction.canceled += OnShootStopped;
 
         reloadAction.performed += OnReloadStarted;
-        //reloadAction.canceled += OnReloadStopped;
+
+        playerMovementController = GetComponent<PlayerMovementController>();
     }
 
     private void OnAimStarted(InputAction.CallbackContext obj)
     {
-        //if (!isReloading)
-        //{
-            animator.applyRootMotion = false;
-            isAiming = true;
-            crossHair.enabled = true;
-            aimRigWeight = 1;
-            playerMovementController.RotateOnMove = false;
-            playerMovementController.RotationSpeed = 2f;
-            aimVirtualCamera.gameObject.SetActive(true);
 
-        //}
-
+        animator.applyRootMotion = false;
+        isAiming = true;
+        crossHair.enabled = true;
+        aimRigWeight = 1;
+        playerMovementController.RotateOnMove = false;
+        playerMovementController.RotationSpeed = 2f;
+        aimVirtualCamera.gameObject.SetActive(true);
     }
 
     private void OnAimStopped(InputAction.CallbackContext obj)
@@ -101,91 +94,61 @@ public class PlayerShooterController : MonoBehaviour
 
     private void OnShootStarted(InputAction.CallbackContext obj)
     {
-        //if (!isReloading && isAiming)
+
+        if (weapon.CanShoot())
+        {
+            isShooting = true;
+
+        }
+        //else
         //{
-            if (weapon.CanShoot())
-            {
-                isShooting = true;
-                //shakeFrequency = 1.2f;
-                //shakeAmplitude = 0.3f;
-            }
-            else
-            {
-                isShooting = false;
-                weapon.StopShoot();
-            }
+        //    isShooting = false;
+        //    weapon.StopShoot();
         //}
-        
     }
     private void OnShootStopped(InputAction.CallbackContext obj)
     {
         isShooting = false;
+        //armedRigWeight = 1f;
+        //animator.SetBool("IsReloading", false);
         weapon.StopShoot();
-        //shakeAmplitude = 0;
-        //shakeFrequency = 0;
     }
-
     private void OnReloadStarted(InputAction.CallbackContext obj)
     {
-        leftHandRigWeight = 0;
+        armedRigWeight = 0;
         isReloading = true;
+        weapon.AudioSource.clip = weapon.WeaponData.reloadSound;
+        weapon.AudioSource.Play();
         animator.SetBool("IsReloading", true);
-
-        //if (isAiming)
-        //    aimRigWeight = 0;
     }
-
-    private void OnReloadStopped()
-    {
-        //reloadAction.performed -= OnReloadStarted;
-        leftHandRigWeight = 1;
-        isReloading = false;
-        animator.SetBool("IsReloading", false);
-        weapon.Reload();
-    }
-
     void Update()
     {
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
-        leftHandRig.weight = Mathf.Lerp(leftHandRig.weight, leftHandRigWeight, Time.deltaTime * 20f);
+        armedRig.weight = Mathf.Lerp(armedRig.weight, armedRigWeight, Time.deltaTime * 20f);
         RotatePlayerOnAimed(MousePosition());
         HandleAiming();
         HandleShooting();
-        Debug.Log(aimAction.IsPressed());
-  
     }
-
     private void HandleShooting()
     {
         if (weapon.CanShoot() && isShooting && !isReloading && IsAiming)
         {         
             weapon.Shoot();
         }
-        //else
-        //{
-        //    weapon.StopShoot();
-        //}
-
-
-        //ShakeCamera(shakeAmplitude, shakeFrequency);
+        else
+        {
+            if (!weapon.CheckBullets() || isReloading)
+                weapon.StopShoot();
+        }
+        
     }
-
     private void HandleAiming()
     { 
         if (isAiming)
         {
-            //if (!isReloading)
-            //    OnAimStarted(aimAction.performed);
-
             animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 1f, Time.deltaTime * 5f));
         }
     }
-
-    private void HandleReloading()
-    {
-
-    }
-
     public Vector3 MousePosition()
     {
 
@@ -201,6 +164,15 @@ public class PlayerShooterController : MonoBehaviour
             return Vector3.zero;
     }
 
+    private void OnReloadStopped()
+    {
+        //reloadAction.performed -= OnReloadStarted;
+        armedRigWeight = 1;
+        isReloading = false;
+        animator.SetBool("IsReloading", false);
+        weapon.Reload();
+    }
+
     private void RotatePlayerOnAimed(Vector3 mousePosition)
     {
         if (isAiming)
@@ -211,17 +183,4 @@ public class PlayerShooterController : MonoBehaviour
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 10f);
         }      
     }
-
-    //private void ShakeCamera(float amplitude, float frequency)
-    //{
-    //    if (!weapon.CheckBullets())
-    //    {
-    //        amplitude = 0;
-    //        frequency = 0;
-    //    }
-    //    CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = aimVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-    //    cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, amplitude, 2f);
-    //    cinemachineBasicMultiChannelPerlin.m_FrequencyGain = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, frequency, 2f);
-    //}
 }

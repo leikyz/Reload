@@ -71,6 +71,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""24b51788-e2c4-4c9a-ad3f-17f44d591e2c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,45 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99f82685-bee1-4649-b52f-8af085258657"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""WeaponWheel"",
+            ""id"": ""786cf703-a156-4fbc-9901-b1e251454594"",
+            ""actions"": [
+                {
+                    ""name"": ""OpenWeaponWheel"",
+                    ""type"": ""Button"",
+                    ""id"": ""bc823a0f-1d12-4f0c-aaa8-ac5801b66e4c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3021695b-b169-4e61-9a0d-ad87c6ed9877"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenWeaponWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +233,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        // WeaponWheel
+        m_WeaponWheel = asset.FindActionMap("WeaponWheel", throwIfNotFound: true);
+        m_WeaponWheel_OpenWeaponWheel = m_WeaponWheel.FindAction("OpenWeaponWheel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,6 +301,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_Reload;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -258,6 +311,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -282,6 +336,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @Reload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -301,10 +358,46 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // WeaponWheel
+    private readonly InputActionMap m_WeaponWheel;
+    private IWeaponWheelActions m_WeaponWheelActionsCallbackInterface;
+    private readonly InputAction m_WeaponWheel_OpenWeaponWheel;
+    public struct WeaponWheelActions
+    {
+        private @PlayerControls m_Wrapper;
+        public WeaponWheelActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @OpenWeaponWheel => m_Wrapper.m_WeaponWheel_OpenWeaponWheel;
+        public InputActionMap Get() { return m_Wrapper.m_WeaponWheel; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(WeaponWheelActions set) { return set.Get(); }
+        public void SetCallbacks(IWeaponWheelActions instance)
+        {
+            if (m_Wrapper.m_WeaponWheelActionsCallbackInterface != null)
+            {
+                @OpenWeaponWheel.started -= m_Wrapper.m_WeaponWheelActionsCallbackInterface.OnOpenWeaponWheel;
+                @OpenWeaponWheel.performed -= m_Wrapper.m_WeaponWheelActionsCallbackInterface.OnOpenWeaponWheel;
+                @OpenWeaponWheel.canceled -= m_Wrapper.m_WeaponWheelActionsCallbackInterface.OnOpenWeaponWheel;
+            }
+            m_Wrapper.m_WeaponWheelActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @OpenWeaponWheel.started += instance.OnOpenWeaponWheel;
+                @OpenWeaponWheel.performed += instance.OnOpenWeaponWheel;
+                @OpenWeaponWheel.canceled += instance.OnOpenWeaponWheel;
+            }
+        }
+    }
+    public WeaponWheelActions @WeaponWheel => new WeaponWheelActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -312,5 +405,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
+    }
+    public interface IWeaponWheelActions
+    {
+        void OnOpenWeaponWheel(InputAction.CallbackContext context);
     }
 }

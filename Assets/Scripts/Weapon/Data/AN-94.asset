@@ -20,5 +20,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8304286932158020221, guid: 71e0003aee283c443aa5d26f74b44031,
     type: 3}
   bulletSpeed: 1
-  shootSound: {fileID: 8300000, guid: dd136342eb7123345a4b290266ca752e, type: 3}
+  shootSound: {fileID: 8300000, guid: fd275f3bb304a8e4692e8060469d2472, type: 3}
   weaponType: 1
+  shakeAmplitude: 0
+  shakeFrequency: 0

@@ -5,19 +5,18 @@ using UnityEngine;
 
 public class WeaponsController : MonoBehaviour
 {
-    public float test;
-    [SerializeField] private WeaponData weapon;
+    [SerializeField] private WeaponData weaponData;
     [SerializeField] private int _bulletsInLoader;
     [SerializeField] private int _bulletsInAll;
 
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform spawnBulletProjectile;
 
-    [SerializeField] private PlayerShooterController shooterController;
+    private PlayerShooterController shooterController;
     [SerializeField] private bool readyToShoot;
 
     [SerializeField] private ParticleSystem fxShoot;
-    [SerializeField] private AudioSource audioSource;
+    private AudioSource audioSource;
 
     private bool isUsed = false;
    [SerializeField] private Cinemachine.CinemachineVirtualCamera aimVirtualCamera;
@@ -45,10 +44,23 @@ public class WeaponsController : MonoBehaviour
         get { return _bulletsInLoader; }
         set { _bulletsInLoader = value; }
     }
+
+    public AudioSource AudioSource
+    {
+        get { return audioSource; }
+        set { audioSource = value; }
+    }
+
+    public WeaponData WeaponData
+    {
+        get { return weaponData; }
+        set { weaponData = value; }
+    }
     private void Start()
     {
-        fxShoot.Stop();
-        Cursor.lockState = CursorLockMode.Locked;
+        audioSource = GetComponent<AudioSource>();
+        shooterController = GameObject.Find("Player").gameObject.GetComponent<PlayerShooterController>();
+        //Cursor.lockState = CursorLockMode.Locked;
         readyToShoot = true;
     }
 
@@ -71,8 +83,8 @@ public class WeaponsController : MonoBehaviour
 
     public void Reload()
     {
-        var bulletNeed = weapon.bulletsAmountMax - BulletsInLoader;
-        if (_bulletsInAll > weapon.bulletsAmountMax)
+        var bulletNeed = weaponData.bulletsAmountMax - BulletsInLoader;
+        if (_bulletsInAll > weaponData.bulletsAmountMax)
         {
             BulletsInLoader += bulletNeed;
             _bulletsInAll -= bulletNeed;
@@ -82,7 +94,7 @@ public class WeaponsController : MonoBehaviour
     public void Shoot()
     {
         readyToShoot = false;
-        audioSource.clip = weapon.shootSound;
+        audioSource.clip = weaponData.shootSound;
         audioSource.Play(0);
         fxShoot.Play();
         BulletsInLoader--;
@@ -99,6 +111,7 @@ public class WeaponsController : MonoBehaviour
     public void StopShoot()
     { 
        fxShoot.Stop();
+       audioSource.Stop();
         //reset camera shake
        ShakeCamera(0f, 0f);
     }
