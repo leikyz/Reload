@@ -8,6 +8,9 @@ public enum WeaponTypeEnum
     NONE = -1,
     ASSAULT_RIFFLE = 1,
     GUN,
-    SNIPER
+    SNIPER,
+    WHITE_WEAPON,
+    ACCESSORY,
+    HEAVY_WEAPON
 }
 

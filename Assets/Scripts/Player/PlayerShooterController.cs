@@ -27,9 +27,22 @@ public class PlayerShooterController : MonoBehaviour
     [SerializeField] private bool isAiming = false;
     [SerializeField] private bool isShooting = false;
     [SerializeField] private bool isReloading = false;
+    [SerializeField] private bool isArmed = false;
 
-    private float aimRigWeight;
-    private float armedRigWeight = 1;
+    private float aimRigWeight = 0;
+    private float armedRigWeight = 0;
+
+    public WeaponsController Weapon
+    {
+        get { return weapon; }
+        set { weapon = value; }
+    }
+
+    public bool IsArmed
+    {
+        get { return isArmed; }
+        set { isArmed = value; }
+    }
 
     public bool IsAiming
     {
@@ -109,8 +122,6 @@ public class PlayerShooterController : MonoBehaviour
     private void OnShootStopped(InputAction.CallbackContext obj)
     {
         isShooting = false;
-        //armedRigWeight = 1f;
-        //animator.SetBool("IsReloading", false);
         weapon.StopShoot();
     }
     private void OnReloadStarted(InputAction.CallbackContext obj)
@@ -125,9 +136,26 @@ public class PlayerShooterController : MonoBehaviour
     {
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
         armedRig.weight = Mathf.Lerp(armedRig.weight, armedRigWeight, Time.deltaTime * 20f);
+        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), armedRigWeight, Time.deltaTime * 5f));
+        if (isArmed)
+        {
+            //animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 5f));
+            armedRigWeight = 1f;
+        }
+        else
+        {
+            armedRigWeight = 0f;
+            
+        }
+            
+
         RotatePlayerOnAimed(MousePosition());
-        HandleAiming();
-        HandleShooting();
+        if (isArmed)
+        {
+            HandleAiming();
+            HandleShooting();
+        }
+
     }
     private void HandleShooting()
     {

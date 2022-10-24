@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: AK47
   m_EditorClassIdentifier: 
   named: AK47
-  visual: {fileID: 21300000, guid: c3443de0f4ca50240adde41e2ef733e6, type: 3}
-  prefab: {fileID: 1724916991178526445, guid: f5a31318fde474342972b4a5d8d6a78c, type: 3}
+  visual: {fileID: 21300000, guid: debd77d461fed83498970ad998ffd743, type: 3}
+  prefab: {fileID: 1918626580190655574, guid: a5cab8b809b248946a0b2cff26fac980, type: 3}
   bulletsAmountMax: 30
   bulletsAmountAllMax: 250
   bulletPrefab: {fileID: 8304286932158020221, guid: 71e0003aee283c443aa5d26f74b44031,
