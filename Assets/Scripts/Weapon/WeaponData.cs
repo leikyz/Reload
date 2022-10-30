@@ -17,4 +17,5 @@ public class WeaponData : ScriptableObject
     public WeaponTypeEnum weaponType;
     public float shakeAmplitude;
     public float shakeFrequency;
+    public Transform leftHandGrip;
 }

@@ -9,7 +9,17 @@ public class PlayerPickingWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        weaponInventory.Weapons.Add(other.GetComponent<WeaponsController>().WeaponData.weaponType, other.GetComponent<WeaponsController>());        
+        // vérifie si une arme du même type est dans l'inventaire, la change sinon l'ajoute
+        other.gameObject.SetActive(false);
+
+        if (weaponInventory.Weapons.ContainsKey(other.GetComponent<WeaponsController>().WeaponData.weaponType))
+        {
+            weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.transform.SetParent(null);      
+            weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType] = other.GetComponent<WeaponsController>();
+        }            
+        else
+            weaponInventory.Weapons.Add(other.GetComponent<WeaponsController>().WeaponData.weaponType, other.GetComponent<WeaponsController>());        
     }
     void Start()
     {
@@ -19,6 +29,6 @@ public class PlayerPickingWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      Debug.Log(weaponInventory.Weapons.Count);
+      //Debug.Log(weaponInventory.Weapons.Count);
     }
 }

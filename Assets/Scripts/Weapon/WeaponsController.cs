@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WeaponsController : MonoBehaviour
@@ -11,6 +12,7 @@ public class WeaponsController : MonoBehaviour
 
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform spawnBulletProjectile;
+    private Transform leftHandGrip;
 
     private PlayerShooterController shooterController;
     [SerializeField] private bool readyToShoot;
@@ -21,9 +23,6 @@ public class WeaponsController : MonoBehaviour
     private bool isUsed = false;
    [SerializeField] private Cinemachine.CinemachineVirtualCamera aimVirtualCamera;
 
-    //public Text _bulletsInLoaderText;
-    //public Text _bulletsInAllText;
-
     private float shakeFrequency;
     private float shakeAmplitude;
 
@@ -31,6 +30,12 @@ public class WeaponsController : MonoBehaviour
     {
         get { return isUsed; }
         set { isUsed = value; }
+    }
+
+    public Transform LeftHandGrip
+    {
+        get { return leftHandGrip; }
+        set { leftHandGrip = value; }
     }
 
     public bool ReadyToShoot
@@ -60,7 +65,7 @@ public class WeaponsController : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         shooterController = GameObject.Find("Player").gameObject.GetComponent<PlayerShooterController>();
-        //Cursor.lockState = CursorLockMode.Locked;
+        GetComponentsInChildren<Transform>().First(x => x.gameObject.name == "leftHandGrip");
         readyToShoot = true;
     }
 
@@ -70,6 +75,11 @@ public class WeaponsController : MonoBehaviour
         //_bulletsInLoaderText.text = _bulletsInLoader.ToString();
         //_bulletsInAllText.text = _bulletsInAll.ToString();
     }
+
+    //private void UnEquip()
+    //{
+    //    if ()
+    //}
 
     public bool CanShoot()
     {

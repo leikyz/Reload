@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 
 public class WeaponWheelController : MonoBehaviour
@@ -10,7 +12,11 @@ public class WeaponWheelController : MonoBehaviour
 
     private float timeOnPressed;
 
+    [SerializeField] private RigBuilder rigB;
+
     public event Action<float> OnTabPressed;
+
+    [SerializeField] private float buttonSelected;
 
     [SerializeField] private bool isOpened = false;
 
@@ -20,6 +26,8 @@ public class WeaponWheelController : MonoBehaviour
 
     [SerializeField] private WeaponInventory weaponInventory;
 
+    [SerializeField] private PlayerShooterController playerShooterController;
+
     [SerializeField] private List<WeaponWheelButton> weaponsSlots = new List<WeaponWheelButton>();
 
     void Start()
@@ -27,14 +35,44 @@ public class WeaponWheelController : MonoBehaviour
         OnTabPressed += OnOpened;
     }
 
+    public float ButtonSelected
+    {
+        get { return buttonSelected; }
+        set { buttonSelected = value; }
+    }
+
     private void OnOpened(float obj)
     {
         RefreshWeapons();
-        Debug.Log("number : " + obj);
         timeController.DoSlowMotion();
         weaponWheel.SetActive(true);
         isOpened = true;
     }
+
+    public void Close()
+    {
+        timeOnPressed = 0;
+        isOpened = false;
+        weaponWheel.SetActive(false);
+        timeController.DoBaseMotion();
+        UnselectButton();
+    }
+
+    void Update()
+    {
+        //Debug.Log(ButtonSelected.ItemName);
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            OnTabPressed?.Invoke(timeOnPressed += 1 * Time.deltaTime);
+        }
+
+        else
+        {
+            if (isOpened)
+                Close();
+        }
+    }
+
 
     private void RefreshWeapons()
     {
@@ -50,35 +88,33 @@ public class WeaponWheelController : MonoBehaviour
         }
     }
 
-    public void Close()
+    private void UnselectButton()
     {
-        timeOnPressed = 0;
-        isOpened = false;
-        weaponWheel.SetActive(false);
-        timeController.DoBaseMotion();
-
+        foreach (var weaponSlot in weaponsSlots)
+            weaponSlot.IsSelected = false;
     }
 
-    void Update()
+    public void EquipWeapon(WeaponsController weapon, Transform weaponPosition, Transform leftHandGrip)
     {
-        
-        if (Input.GetKey(KeyCode.Tab))
+        if (weapon.gameObject.transform.position != weaponPosition.position)
         {
-            OnTabPressed?.Invoke(timeOnPressed += 1 * Time.deltaTime);
+            weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
+            weapon.gameObject.transform.SetParent(weaponPosition);
+            weapon.gameObject.transform.position = weaponPosition.position;
+            weapon.gameObject.transform.rotation = weaponPosition.rotation;
+            var childs = weapon.GetComponentsInChildren<Transform>();
+            leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;
+            playerShooterController.IsArmed = true;
+            playerShooterController.Weapon = weapon;
+            weapon.gameObject.SetActive(true);
+            rigB.Build();
         }
-            
-        else
-        {
-            if (isOpened)
-                Close();
-        }
-            
-        
-    }
+        //leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.Find("leftHandGrip").transform;
 
-    private void ChangeWeapon()
-    {
-        //WeaponWheelController
+        //weaponWheelInputs.Close();
+        //playerShooterController.IsArmed = true;
+        //playerShooterController.Weapon = Weapon.gameObject.GetComponent<WeaponsController>();
+        //rigB.Build();
+        //animator.Rebind();
     }
-
 }

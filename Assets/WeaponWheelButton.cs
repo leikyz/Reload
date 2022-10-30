@@ -13,20 +13,23 @@ public class WeaponWheelButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemText;
     [SerializeField] private WeaponTypeEnum weaponType;
     [SerializeField] private Image icon;
-    [SerializeField] private bool selected = false;
+    [SerializeField] private bool isSelected = false;
     [SerializeField] WeaponsController weapon;
     [SerializeField] private Transform weaponPosition;
-    [SerializeField] private WeaponWheelController weaponWheelInputs;
+    [SerializeField] private WeaponWheelController weaponWheelController;
     [SerializeField] private PlayerShooterController playerShooterController;
-    [SerializeField] private Transform leftHandGrip;
-    [SerializeField] private RigBuilder rigB;
-    [SerializeField] private Animator animator;
     // Start is called before the first frame update
 
     public WeaponsController Weapon
     {
         get { return weapon; }
         set { weapon = value; }
+    }
+
+    public bool IsSelected
+    {
+        get { return isSelected; }
+        set { isSelected = value; }
     }
     public WeaponTypeEnum WeaponType
     {
@@ -54,33 +57,18 @@ public class WeaponWheelButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (selected)
-        //{
-            
-        //}
+        
     }
     public void Selected()
     {
-        selected = true;
-        //if (weapon.parent != weaponPosition)
-        //{
-        //    weapon.SetParent(weaponPosition);
-        //    weapon.position = weaponPosition.position;
-        //    weapon.rotation = weaponPosition.rotation;
-        //    itemText.text = itemName;
-        //}
-        //leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.Find("leftHandGrip").transform;
-        
-        //weaponWheelInputs.Close();
-        //playerShooterController.IsArmed = true;
-        //playerShooterController.Weapon = Weapon.gameObject.GetComponent<WeaponsController>();
-        //rigB.Build();
-        //animator.Rebind();
+        isSelected = true;
+        weaponWheelController.ButtonSelected = Id;
+        weaponWheelController.EquipWeapon(Weapon, weaponPosition, weapon.LeftHandGrip);
     }
 
     public void Deselected()
     {
-        selected = false;
+        isSelected = false;
     }
     public void HoverEnter()
     {

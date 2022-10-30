@@ -25,3 +25,4 @@ MonoBehaviour:
   weaponType: 1
   shakeAmplitude: 0
   shakeFrequency: 0
+  leftHandGrip: {fileID: 0}
