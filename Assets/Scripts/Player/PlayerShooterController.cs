@@ -107,22 +107,23 @@ public class PlayerShooterController : MonoBehaviour
 
     private void OnShootStarted(InputAction.CallbackContext obj)
     {
-
-        if (weapon.CanShoot())
+        if (isArmed)
         {
-            isShooting = true;
+            if (weapon.CanShoot())
+            {
+                isShooting = true;
 
+            }
         }
-        //else
-        //{
-        //    isShooting = false;
-        //    weapon.StopShoot();
-        //}
+
     }
     private void OnShootStopped(InputAction.CallbackContext obj)
     {
-        isShooting = false;
-        weapon.StopShoot();
+        if (IsArmed)
+        {
+            isShooting = false;
+            weapon.StopShoot();
+        }
     }
     private void OnReloadStarted(InputAction.CallbackContext obj)
     {

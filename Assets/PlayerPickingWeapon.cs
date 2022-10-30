@@ -4,32 +4,12 @@ using UnityEngine;
 
 public class PlayerPickingWeapon : MonoBehaviour
 {
-    [SerializeField] private List<WeaponWheelController> weaponSlots = new List<WeaponWheelController>();
+    [SerializeField] private WeaponInventory weaponInventory;
     [SerializeField] private PlayerShooterController playerMovementController;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Weapon"))
-        {
-            foreach (var weaponSlot in weaponSlots)
-            {
-                if (weaponSlot.WeaponType == other.GetComponent<WeaponsController>().WeaponData.weaponType)
-                {
-                    if (weaponSlot.Weapon != null)
-                        weaponSlot.Weapon.gameObject.active = false;
-                    other.GetComponent<BoxCollider>().enabled = false;
-                    weaponSlot.ItemName = other.name;
-                    weaponSlot.Icon.sprite = other.GetComponent<WeaponsController>().WeaponData.visual;
-                    weaponSlot.Weapon = other.gameObject.transform;
-                    //other.transform.SetParent(riflePosition);
-                    //other.transform.position = riflePosition.position;
-                    //other.transform.rotation = riflePosition.rotation;
-                    //playerMovementController.IsArmed = true;
-                }
-                    
-            }
-        }
-            
+        weaponInventory.Weapons.Add(other.GetComponent<WeaponsController>().WeaponData.weaponType, other.GetComponent<WeaponsController>());        
     }
     void Start()
     {
@@ -39,6 +19,6 @@ public class PlayerPickingWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+      Debug.Log(weaponInventory.Weapons.Count);
     }
 }
