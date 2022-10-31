@@ -94,7 +94,7 @@ public class WeaponWheelController : MonoBehaviour
             weaponSlot.IsSelected = false;
     }
 
-    public void EquipWeapon(WeaponsController weapon, Transform weaponPosition, Transform leftHandGrip)
+    public void EquipWeapon(WeaponsController weapon, Transform weaponPosition, Transform leftHandGrip, WeaponTypeEnum weaponTypeEnum)
     {
         if (weapon.gameObject.transform.position != weaponPosition.position)
         {
@@ -104,6 +104,7 @@ public class WeaponWheelController : MonoBehaviour
             weapon.gameObject.transform.rotation = weaponPosition.rotation;
             leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;
             playerShooterController.IsArmed = true;
+            playerShooterController.WeaponTypeEnumActual = weaponTypeEnum;
             playerShooterController.Weapon = weapon;
             weapon.gameObject.SetActive(true);
             rigB.Build();

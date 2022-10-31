@@ -28,11 +28,17 @@ public class PlayerShooterController : MonoBehaviour
     [SerializeField] private bool isShooting = false;
     [SerializeField] private bool isReloading = false;
     [SerializeField] private bool isArmed = false;
+    [SerializeField] private WeaponTypeEnum weaponTypeEnumActual;
 
     private float aimRigWeight = 0;
     private float armedRigWeight = 0;
     private float leftHandWeight = 0;
 
+    public WeaponTypeEnum WeaponTypeEnumActual
+    {
+        get { return weaponTypeEnumActual; }
+        set { weaponTypeEnumActual = value; }
+    }
     public WeaponsController Weapon
     {
         get { return weapon; }
@@ -138,8 +144,7 @@ public class PlayerShooterController : MonoBehaviour
     {
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
         leftHandRig.weight = Mathf.Lerp(leftHandRig.weight, leftHandWeight, Time.deltaTime * 20f);
-        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), armedRigWeight, Time.deltaTime * 5f));
-        
+
         RotatePlayerOnAimed(MousePosition());
         if (isArmed)
         {
@@ -147,22 +152,25 @@ public class PlayerShooterController : MonoBehaviour
             HandleAiming();
             HandleShooting();
         }
-        //else
-        //    armedRigWeight = 0f;
 
     }
 
     private void HandleArmed()
     {
-        //if (isArmed)
-        //{
+        if (weaponTypeEnumActual == WeaponTypeEnum.ASSAULT_RIFFLE)
             armedRigWeight = 1f;
-            if (!isReloading)
-                leftHandWeight = 1f;
-            else
-                leftHandWeight = 0;
-        //}
+        else
+            armedRigWeight = 0f;
+
+        if (!isReloading)
+            leftHandWeight = 1f;
+        else
+            leftHandWeight = 0;
+
+        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), armedRigWeight, Time.deltaTime * 5f));
     }
+        //}
+    
 
     private void HandleShooting()
     {
@@ -178,10 +186,14 @@ public class PlayerShooterController : MonoBehaviour
         
     }
     private void HandleAiming()
-    { 
+    {
         if (isAiming)
         {
-            animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 1f, Time.deltaTime * 5f));
+            if (weaponTypeEnumActual == WeaponTypeEnum.ASSAULT_RIFFLE)
+                animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 1f, Time.deltaTime * 5f));
+            else if(weaponTypeEnumActual == WeaponTypeEnum.GUN)
+                animator.SetLayerWeight(3, Mathf.Lerp(animator.GetLayerWeight(3), 1f, Time.deltaTime * 5f));
+
         }
     }
     public Vector3 MousePosition()

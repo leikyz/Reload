@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b505dd3063db042846a1748c0a93d9, type: 3}
-  m_Name: AN-94
+  m_Name: Revolver
   m_EditorClassIdentifier: 
-  named: AN-94
+  named: Revolver
   visual: {fileID: 21300000, guid: 559ac06dcbd5b564d94a6aa2694b7169, type: 3}
-  prefab: {fileID: 1446648945068182433, guid: f3d2a5430ee563a438c071ab4263c649, type: 3}
-  bulletsAmountMax: 40
-  bulletsAmountAllMax: 250
-  bulletPrefab: {fileID: 8304286932158020221, guid: 71e0003aee283c443aa5d26f74b44031,
-    type: 3}
-  bulletSpeed: 1
-  shootSound: {fileID: 8300000, guid: 1b36fb2744cb72c43a21e7904de89733, type: 3}
-  reloadSound: {fileID: 8300000, guid: bae932194ee24f84ab77086804912d3a, type: 3}
-  weaponType: 2
+  prefab: {fileID: 0}
+  bulletsAmountMax: 5
+  bulletsAmountAllMax: 50
+  bulletPrefab: {fileID: 0}
+  bulletSpeed: 0
+  shootSound: {fileID: 0}
+  reloadSound: {fileID: 0}
+  weaponType: 0
   shakeAmplitude: 0
   shakeFrequency: 0
   leftHandGrip: {fileID: 0}

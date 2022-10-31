@@ -73,7 +73,7 @@ public class WeaponWheelButton : MonoBehaviour
         }
         isSelected = true;
         weaponWheelController.ButtonSelected = Id;
-        weaponWheelController.EquipWeapon(Weapon, weaponPosition, rigLeftHand);
+        weaponWheelController.EquipWeapon(Weapon, weaponPosition, rigLeftHand, weaponType);
       
     }
 
