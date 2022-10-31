@@ -10,12 +10,17 @@ public class WeaponWheelButton : MonoBehaviour
 
     [SerializeField] private int Id;
     [SerializeField] private string itemName;
+
     [SerializeField] private TextMeshProUGUI itemText;
+    [SerializeField] private TextMeshProUGUI bulletsInLoader;
+    [SerializeField] private TextMeshProUGUI BulletsInAll;
+
     [SerializeField] private WeaponTypeEnum weaponType;
     [SerializeField] private Image icon;
     [SerializeField] private bool isSelected = false;
     [SerializeField] WeaponsController weapon;
     [SerializeField] private Transform weaponPosition;
+    [SerializeField] private Transform rigLeftHand;
     [SerializeField] private WeaponWheelController weaponWheelController;
     [SerializeField] private PlayerShooterController playerShooterController;
     // Start is called before the first frame update
@@ -61,9 +66,15 @@ public class WeaponWheelButton : MonoBehaviour
     }
     public void Selected()
     {
+        if (weapon != null)
+        {
+            bulletsInLoader.text = weapon.BulletsInLoader.ToString();
+            BulletsInAll.text = weapon.BulletsInAll.ToString();
+        }
         isSelected = true;
         weaponWheelController.ButtonSelected = Id;
-        weaponWheelController.EquipWeapon(Weapon, weaponPosition, weapon.LeftHandGrip);
+        weaponWheelController.EquipWeapon(Weapon, weaponPosition, rigLeftHand);
+      
     }
 
     public void Deselected()
@@ -72,10 +83,17 @@ public class WeaponWheelButton : MonoBehaviour
     }
     public void HoverEnter()
     {
+        if (weapon != null)
+        {
+            bulletsInLoader.text = weapon.BulletsInLoader.ToString();
+            BulletsInAll.text = weapon.BulletsInAll.ToString();
+        }
         itemText.text = itemName;
     }
     public void HoverExit()
     {
         itemText.text = "";
+        bulletsInLoader.text = "";
+        BulletsInAll.text = "";
     }
 }

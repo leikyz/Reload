@@ -14,7 +14,7 @@ public class PlayerShooterController : MonoBehaviour
 
     [SerializeField] private Image crossHair;
     [SerializeField] private Rig aimRig;
-    [SerializeField] private Rig armedRig;
+    [SerializeField] private Rig leftHandRig;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private LayerMask aimColliderMask = new();
 
@@ -31,6 +31,7 @@ public class PlayerShooterController : MonoBehaviour
 
     private float aimRigWeight = 0;
     private float armedRigWeight = 0;
+    private float leftHandWeight = 0;
 
     public WeaponsController Weapon
     {
@@ -85,7 +86,7 @@ public class PlayerShooterController : MonoBehaviour
 
         animator.applyRootMotion = false;
         isAiming = true;
-        crossHair.enabled = true;
+        crossHair.gameObject.SetActive(true);
         aimRigWeight = 1;
         playerMovementController.RotateOnMove = false;
         playerMovementController.RotationSpeed = 2f;
@@ -97,7 +98,7 @@ public class PlayerShooterController : MonoBehaviour
         animator.applyRootMotion = true;
         animator.SetLayerWeight(2, 0);
         isAiming = false;
-        crossHair.enabled = false;
+        crossHair.gameObject.SetActive(false);
         aimVirtualCamera.gameObject.SetActive(false);
         playerMovementController.RotationSpeed = 5f;
         playerMovementController.RotateOnMove = true;
@@ -129,35 +130,40 @@ public class PlayerShooterController : MonoBehaviour
     {
         armedRigWeight = 0;
         isReloading = true;
-        weapon.AudioSource.clip = weapon.WeaponData.reloadSound;
+        //weapon.AudioSource.clip = weapon.WeaponData.reloadSound;
         weapon.AudioSource.Play();
         animator.SetBool("IsReloading", true);
     }
     void Update()
     {
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
-        armedRig.weight = Mathf.Lerp(armedRig.weight, armedRigWeight, Time.deltaTime * 20f);
+        leftHandRig.weight = Mathf.Lerp(leftHandRig.weight, leftHandWeight, Time.deltaTime * 20f);
         animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), armedRigWeight, Time.deltaTime * 5f));
-        if (isArmed)
-        {
-            //animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 5f));
-            armedRigWeight = 1f;
-        }
-        else
-        {
-            armedRigWeight = 0f;
-            
-        }
-            
-
+        
         RotatePlayerOnAimed(MousePosition());
         if (isArmed)
         {
+            HandleArmed();
             HandleAiming();
             HandleShooting();
         }
+        //else
+        //    armedRigWeight = 0f;
 
     }
+
+    private void HandleArmed()
+    {
+        //if (isArmed)
+        //{
+            armedRigWeight = 1f;
+            if (!isReloading)
+                leftHandWeight = 1f;
+            else
+                leftHandWeight = 0;
+        //}
+    }
+
     private void HandleShooting()
     {
         if (weapon.CanShoot() && isShooting && !isReloading && IsAiming)

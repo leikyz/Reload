@@ -102,7 +102,6 @@ public class WeaponWheelController : MonoBehaviour
             weapon.gameObject.transform.SetParent(weaponPosition);
             weapon.gameObject.transform.position = weaponPosition.position;
             weapon.gameObject.transform.rotation = weaponPosition.rotation;
-            var childs = weapon.GetComponentsInChildren<Transform>();
             leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;
             playerShooterController.IsArmed = true;
             playerShooterController.Weapon = weapon;

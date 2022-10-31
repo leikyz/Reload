@@ -12,7 +12,7 @@ public class WeaponsController : MonoBehaviour
 
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform spawnBulletProjectile;
-    private Transform leftHandGrip;
+    [SerializeField] private Transform leftHandGrip;
 
     private PlayerShooterController shooterController;
     [SerializeField] private bool readyToShoot;
@@ -22,10 +22,6 @@ public class WeaponsController : MonoBehaviour
 
     private bool isUsed = false;
    [SerializeField] private Cinemachine.CinemachineVirtualCamera aimVirtualCamera;
-
-    private float shakeFrequency;
-    private float shakeAmplitude;
-
     public bool IsUsed
     {
         get { return isUsed; }
@@ -50,6 +46,12 @@ public class WeaponsController : MonoBehaviour
         set { _bulletsInLoader = value; }
     }
 
+    public int BulletsInAll
+    {
+        get { return _bulletsInAll; }
+        set { _bulletsInAll = value; }
+    }
+
     public AudioSource AudioSource
     {
         get { return audioSource; }
@@ -63,6 +65,7 @@ public class WeaponsController : MonoBehaviour
     }
     private void Start()
     {
+        //leftHandGrip = GetComponentsInChildren<Transform>().First(x => x.name == "leftHandGrip");
         audioSource = GetComponent<AudioSource>();
         shooterController = GameObject.Find("Player").gameObject.GetComponent<PlayerShooterController>();
         GetComponentsInChildren<Transform>().First(x => x.gameObject.name == "leftHandGrip");
