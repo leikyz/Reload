@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   named: Revolver
   visual: {fileID: 21300000, guid: 559ac06dcbd5b564d94a6aa2694b7169, type: 3}
-  prefab: {fileID: 0}
+  prefab: {fileID: 3226118659470229180, guid: aa8f4cc78288d224ea74f424a60ae58d, type: 3}
   bulletsAmountMax: 5
   bulletsAmountAllMax: 50
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 1703263380272892, guid: 7af0025c87c32d548bd8331f3955239a,
+    type: 3}
   bulletSpeed: 0
-  shootSound: {fileID: 0}
-  reloadSound: {fileID: 0}
-  weaponType: 0
+  shootSound: {fileID: 8300000, guid: bae932194ee24f84ab77086804912d3a, type: 3}
+  reloadSound: {fileID: 8300000, guid: bae932194ee24f84ab77086804912d3a, type: 3}
+  weaponType: 2
   shakeAmplitude: 0
   shakeFrequency: 0
   leftHandGrip: {fileID: 0}

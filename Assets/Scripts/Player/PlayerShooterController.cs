@@ -162,7 +162,7 @@ public class PlayerShooterController : MonoBehaviour
         else
             armedRigWeight = 0f;
 
-        if (!isReloading)
+        if (!isReloading && weaponTypeEnumActual != WeaponTypeEnum.GUN)
             leftHandWeight = 1f;
         else
             leftHandWeight = 0;
@@ -193,8 +193,19 @@ public class PlayerShooterController : MonoBehaviour
                 animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 1f, Time.deltaTime * 5f));
             else if(weaponTypeEnumActual == WeaponTypeEnum.GUN)
                 animator.SetLayerWeight(3, Mathf.Lerp(animator.GetLayerWeight(3), 1f, Time.deltaTime * 5f));
+        }
+
+        else
+        {
+            if (animator.GetLayerWeight(2) != 0 || animator.GetLayerWeight(3) != 0)
+            {
+                animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 0f, Time.deltaTime * 5f));
+                animator.SetLayerWeight(3, Mathf.Lerp(animator.GetLayerWeight(3), 0f, Time.deltaTime * 5f));
+            }
 
         }
+
+
     }
     public Vector3 MousePosition()
     {
