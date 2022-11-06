@@ -76,6 +76,7 @@ public class WeaponWheelController : MonoBehaviour
 
     private void RefreshWeapons()
     {
+        // permet d'actualiser le continue de la roue grâce a l'inventaire d'arme
         foreach (var weaponSlot in weaponsSlots)
         {
             if (weaponInventory.Weapons.ContainsKey(weaponSlot.WeaponType))
@@ -96,25 +97,37 @@ public class WeaponWheelController : MonoBehaviour
 
     public void EquipWeapon(WeaponsController weapon, Transform weaponPosition, Transform leftHandGrip, WeaponTypeEnum weaponTypeEnum)
     {
+        UnequipWeapon();
+
+
+        // si n'a jamais été équiper, l'ajoute à l'endroit dédier au type d'arme
         if (weapon.gameObject.transform.position != weaponPosition.position)
         {
             weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
             weapon.gameObject.transform.SetParent(weaponPosition);
             weapon.gameObject.transform.position = weaponPosition.position;
-            weapon.gameObject.transform.rotation = weaponPosition.rotation;
-            leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;
-            playerShooterController.IsArmed = true;
-            playerShooterController.WeaponTypeEnumActual = weaponTypeEnum;
-            playerShooterController.Weapon = weapon;
-            weapon.gameObject.SetActive(true);
-            rigB.Build();
+            weapon.gameObject.transform.rotation = weaponPosition.rotation;                       
         }
-        //leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.Find("leftHandGrip").transform;
 
-        //weaponWheelInputs.Close();
-        //playerShooterController.IsArmed = true;
-        //playerShooterController.Weapon = Weapon.gameObject.GetComponent<WeaponsController>();
-        //rigB.Build();
-        //animator.Rebind();
+        // actualise le type / l'arme / le grip de la main gauche et active l'arme
+        playerShooterController.IsArmed = true;
+        playerShooterController.WeaponTypeEnumActual = weaponTypeEnum;
+        playerShooterController.Weapon = weapon;
+        leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;
+        weapon.gameObject.SetActive(true);
+        rigB.Build();
+    }
+
+    public void UnequipWeapon()
+    {
+        // retrouve l'arme active pour la désactiver quand une nouvelle est sélectionnée
+        if (playerShooterController.Weapon != null)
+        {
+            var weaponEquiped = playerShooterController.gameObject.GetComponentsInChildren<WeaponsController>(true).First(x => x.gameObject.name == playerShooterController.Weapon.WeaponData.name);
+            if (weaponEquiped != null)
+            {
+                weaponEquiped.gameObject.SetActive(false);
+            }
+        }
     }
 }

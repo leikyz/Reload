@@ -9,7 +9,7 @@ public class PlayerPickingWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // vérifie si une arme du même type est dans l'inventaire, la change sinon l'ajoute
+        // vérifie si une arme du même type est dans l'inventaire, la change sinon l'ajoute pour avoir qu'une seule par type
         other.gameObject.SetActive(false);
 
         if (weaponInventory.Weapons.ContainsKey(other.GetComponent<WeaponsController>().WeaponData.weaponType))

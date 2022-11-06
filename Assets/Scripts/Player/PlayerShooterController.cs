@@ -187,6 +187,7 @@ public class PlayerShooterController : MonoBehaviour
     }
     private void HandleAiming()
     {
+        //active l'animation de visée selon le type d'arme
         if (isAiming)
         {
             if (weaponTypeEnumActual == WeaponTypeEnum.ASSAULT_RIFFLE)
