@@ -74,16 +74,7 @@ public class WeaponsController : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(CanShoot());
-        //_bulletsInLoaderText.text = _bulletsInLoader.ToString();
-        //_bulletsInAllText.text = _bulletsInAll.ToString();
     }
-
-    //private void UnEquip()
-    //{
-    //    if ()
-    //}
-
     public bool CanShoot()
     {
         return _bulletsInLoader > 0 && readyToShoot && !shooterController.IsReloading;
@@ -115,10 +106,10 @@ public class WeaponsController : MonoBehaviour
         var lastBullet = Instantiate(pfBulletProjectile, spawnBulletProjectile.position, Quaternion.LookRotation(((shooterController.MousePosition() + Vector3.up) - spawnBulletProjectile.position).normalized, Vector3.up));
         lastBullet.GetComponent<Rigidbody>().velocity = transform.forward * 50f;
 
-        ShakeCamera(0.2f, 1f);
+        ShakeCamera(weaponData.shakeAmplitude, weaponData.shakeFrequency);
 
 
-        Invoke("ResetShot", 0.2f);
+        Invoke("ResetShot", weaponData.bulletDelay);
     }
 
     public void StopShoot()

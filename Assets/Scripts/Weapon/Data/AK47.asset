@@ -23,6 +23,6 @@ MonoBehaviour:
   shootSound: {fileID: 8300000, guid: 1b145bcffd767854fb0c71c37678ebaa, type: 3}
   reloadSound: {fileID: 8300000, guid: bae932194ee24f84ab77086804912d3a, type: 3}
   weaponType: 1
-  shakeAmplitude: 0
-  shakeFrequency: 0
-  leftHandGrip: {fileID: 0}
+  shakeAmplitude: 0.2
+  shakeFrequency: 1
+  bulletDelay: 0.2
