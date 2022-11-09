@@ -8,6 +8,7 @@ public class WeaponData : ScriptableObject
     public string named;
     public Sprite visual;
     public GameObject prefab;
+    public GameObject prefabs;
     public int bulletsAmountMax;
     public int bulletsAmountAllMax;
     public GameObject bulletPrefab;

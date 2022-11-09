@@ -22,6 +22,8 @@ public class WeaponWheelController : MonoBehaviour
 
     [SerializeField] private TimeController timeController;
 
+    [SerializeField] private Transform back;
+
     //[SerializeField] private WeaponWheelButton weapon;
 
     [SerializeField] private WeaponInventory weaponInventory;
@@ -126,7 +128,9 @@ public class WeaponWheelController : MonoBehaviour
             var weaponEquiped = playerShooterController.gameObject.GetComponentsInChildren<WeaponsController>(true).First(x => x.gameObject.name == playerShooterController.Weapon.WeaponData.name);
             if (weaponEquiped != null)
             {
-                weaponEquiped.gameObject.SetActive(false);
+                weaponEquiped.gameObject.transform.SetParent(weaponEquiped.BackPosition);
+                weaponEquiped.gameObject.transform.position = weaponEquiped.BackPosition.position;
+                weaponEquiped.gameObject.transform.rotation = weaponEquiped.BackPosition.rotation;
             }
         }
     }

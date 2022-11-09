@@ -13,6 +13,7 @@ public class WeaponsController : MonoBehaviour
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform spawnBulletProjectile;
     [SerializeField] private Transform leftHandGrip;
+    [SerializeField] private Transform backPosition;
 
     private PlayerShooterController shooterController;
     [SerializeField] private bool readyToShoot;
@@ -22,6 +23,12 @@ public class WeaponsController : MonoBehaviour
 
     private bool isUsed = false;
    [SerializeField] private Cinemachine.CinemachineVirtualCamera aimVirtualCamera;
+
+    public Transform BackPosition
+    {
+        get { return backPosition; }
+        set { backPosition = value; }
+    }
     public bool IsUsed
     {
         get { return isUsed; }
@@ -106,6 +113,7 @@ public class WeaponsController : MonoBehaviour
         var lastBullet = Instantiate(pfBulletProjectile, spawnBulletProjectile.position, Quaternion.LookRotation(((shooterController.MousePosition() + Vector3.up) - spawnBulletProjectile.position).normalized, Vector3.up));
         lastBullet.GetComponent<Rigidbody>().velocity = transform.forward * 50f;
 
+        //if (readyToShoot)
         ShakeCamera(weaponData.shakeAmplitude, weaponData.shakeFrequency);
 
 
@@ -115,7 +123,7 @@ public class WeaponsController : MonoBehaviour
     public void StopShoot()
     { 
        fxShoot.Stop();
-       audioSource.Stop();
+       //audioSource.Stop();
         //reset camera shake
        ShakeCamera(0f, 0f);
     }
@@ -124,6 +132,7 @@ public class WeaponsController : MonoBehaviour
     private void ResetShot()
     {
         readyToShoot = true;
+        ShakeCamera(0, 0);
     }
 
     private void ShakeCamera(float amplitude, float frequency)
