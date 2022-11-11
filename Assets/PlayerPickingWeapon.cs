@@ -7,21 +7,32 @@ public class PlayerPickingWeapon : MonoBehaviour
     [SerializeField] private WeaponInventory weaponInventory;
     [SerializeField] private PlayerShooterController playerMovementController;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         // vérifie si une arme du même type est dans l'inventaire, la change sinon l'ajoute pour avoir qu'une seule par type
-        other.gameObject.transform.SetParent(other.GetComponent<WeaponsController>().BackPosition);
-        other.gameObject.transform.position = other.GetComponent<WeaponsController>().BackPosition.position;
-        other.gameObject.transform.rotation = other.GetComponent<WeaponsController>().BackPosition.rotation;
 
-        if (weaponInventory.Weapons.ContainsKey(other.GetComponent<WeaponsController>().WeaponData.weaponType))
+        if (Input.GetKey(KeyCode.B))
         {
-            weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.transform.SetParent(null);      
-            weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<Rigidbody>().isKinematic = false;
-            weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType] = other.GetComponent<WeaponsController>();
-        }            
-        else
-            weaponInventory.Weapons.Add(other.GetComponent<WeaponsController>().WeaponData.weaponType, other.GetComponent<WeaponsController>());        
+            if (weaponInventory.Weapons.ContainsKey(other.GetComponent<WeaponsController>().WeaponData.weaponType))
+            {
+                weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.transform.SetParent(null);
+                weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<BoxCollider>().enabled = true;
+                weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType] = other.GetComponent<WeaponsController>();
+            }
+            else
+            {
+                weaponInventory.Weapons.Add(other.GetComponent<WeaponsController>().WeaponData.weaponType, other.GetComponent<WeaponsController>());
+            }
+
+            other.gameObject.transform.SetParent(other.GetComponent<WeaponsController>().BackPosition);
+            other.gameObject.transform.position = other.GetComponent<WeaponsController>().BackPosition.position;
+            other.gameObject.transform.rotation = other.GetComponent<WeaponsController>().BackPosition.rotation;
+            other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            other.gameObject.GetComponent<BoxCollider>().enabled = false;
+        }
+        
+
     }
     void Start()
     {

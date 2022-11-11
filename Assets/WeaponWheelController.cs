@@ -32,6 +32,8 @@ public class WeaponWheelController : MonoBehaviour
 
     [SerializeField] private List<WeaponWheelButton> weaponsSlots = new List<WeaponWheelButton>();
 
+    [SerializeField] private Animator animator;
+
     void Start()
     {
         OnTabPressed += OnOpened;
@@ -119,6 +121,8 @@ public class WeaponWheelController : MonoBehaviour
         weapon.gameObject.SetActive(true);
         rigB.Build();
     }
+
+
 
     public void UnequipWeapon()
     {
