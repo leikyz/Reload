@@ -22,7 +22,7 @@ public class WeaponWheelController : MonoBehaviour
 
     [SerializeField] private TimeController timeController;
 
-    [SerializeField] private Transform back;
+    //[SerializeField] private Transform back;
 
     //[SerializeField] private WeaponWheelButton weapon;
 
