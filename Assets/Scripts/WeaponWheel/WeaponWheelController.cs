@@ -47,6 +47,7 @@ public class WeaponWheelController : MonoBehaviour
 
     private void OnOpened(float obj)
     {
+        Cursor.lockState = CursorLockMode.Confined;
         RefreshWeapons();
         timeController.DoSlowMotion();
         weaponWheel.SetActive(true);
@@ -55,6 +56,7 @@ public class WeaponWheelController : MonoBehaviour
 
     public void Close()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         timeOnPressed = 0;
         isOpened = false;
         weaponWheel.SetActive(false);
@@ -64,7 +66,6 @@ public class WeaponWheelController : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(ButtonSelected.ItemName);
         if (Input.GetKey(KeyCode.Tab))
         {
             OnTabPressed?.Invoke(timeOnPressed += 1 * Time.deltaTime);

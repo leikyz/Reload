@@ -78,6 +78,7 @@ public class WeaponsController : MonoBehaviour
     }
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         //leftHandGrip = GetComponentsInChildren<Transform>().First(x => x.name == "leftHandGrip");
         audioSource = GetComponent<AudioSource>();
         shooterController = GameObject.Find("Player").gameObject.GetComponent<PlayerShooterController>();

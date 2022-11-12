@@ -12,14 +12,16 @@ public class PlayerPickingWeapon : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // check if a same weapon type is already in weapon inventory, to get one weapon by type in weapon wheel 
+        Debug.Log(other.gameObject.name);
 
-        if (Input.GetKey(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             if (weaponInventory.Weapons.ContainsKey(other.GetComponent<WeaponsController>().WeaponData.weaponType))
             {
                 weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.transform.SetParent(null);
-                weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<BoxCollider>().enabled = true;
+              
                 weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<BoxCollider>().enabled = true;
                 weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType] = other.GetComponent<WeaponsController>();
             }
             else
@@ -31,18 +33,17 @@ public class PlayerPickingWeapon : MonoBehaviour
             if (playerMovementController.Weapon != null && playerMovementController.Weapon.WeaponData.weaponType == other.GetComponent<WeaponsController>().WeaponData.weaponType)
             {
                 position = other.GetComponent<WeaponsController>().EquipedPosition;
+                playerMovementController.Weapon = other.GetComponent<WeaponsController>();
             }
             else
             {
                 position = other.GetComponent<WeaponsController>().BackPosition;         
             }
+
             if (position != null)
                 PositionChoice(position, other.gameObject);
 
-            ChangeCharacteristic(other.gameObject);
-            other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
-
+            ChangeCharacteristic(other.gameObject);          
         }
         
 
@@ -57,7 +58,8 @@ public class PlayerPickingWeapon : MonoBehaviour
 
     private void ChangeCharacteristic(GameObject weapon)
     {
-        weapon.GetComponent<Rigidbody>().isKinematic = true;
         weapon.GetComponent<BoxCollider>().enabled = false;
+        weapon.GetComponent<Rigidbody>().isKinematic = true;
+
     }
 }
