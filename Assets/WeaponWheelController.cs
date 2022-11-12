@@ -78,7 +78,7 @@ public class WeaponWheelController : MonoBehaviour
     }
 
 
-    private void RefreshWeapons()
+    public void RefreshWeapons()
     {
         // permet d'actualiser le continue de la roue grâce a l'inventaire d'arme
         foreach (var weaponSlot in weaponsSlots)

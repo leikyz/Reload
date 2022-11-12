@@ -7,9 +7,11 @@ public class PlayerPickingWeapon : MonoBehaviour
     [SerializeField] private WeaponInventory weaponInventory;
     [SerializeField] private PlayerShooterController playerMovementController;
 
+    private Transform position;
+
     private void OnTriggerStay(Collider other)
     {
-        // vérifie si une arme du même type est dans l'inventaire, la change sinon l'ajoute pour avoir qu'une seule par type
+        // check if a same weapon type is already in weapon inventory, to get one weapon by type in weapon wheel 
 
         if (Input.GetKey(KeyCode.B))
         {
@@ -25,23 +27,37 @@ public class PlayerPickingWeapon : MonoBehaviour
                 weaponInventory.Weapons.Add(other.GetComponent<WeaponsController>().WeaponData.weaponType, other.GetComponent<WeaponsController>());
             }
 
-            other.gameObject.transform.SetParent(other.GetComponent<WeaponsController>().BackPosition);
-            other.gameObject.transform.position = other.GetComponent<WeaponsController>().BackPosition.position;
-            other.gameObject.transform.rotation = other.GetComponent<WeaponsController>().BackPosition.rotation;
+            //check if weapon is a same weapontype is already equiped, change position of weapon depending on the value (back position or equiped position)
+            if (playerMovementController.Weapon != null && playerMovementController.Weapon.WeaponData.weaponType == other.GetComponent<WeaponsController>().WeaponData.weaponType)
+            {
+                position = other.GetComponent<WeaponsController>().EquipedPosition;
+            }
+            else
+            {
+                position = other.GetComponent<WeaponsController>().BackPosition;         
+            }
+            if (position != null)
+                PositionChoice(position, other.gameObject);
+
+            ChangeCharacteristic(other.gameObject);
             other.gameObject.GetComponent<Rigidbody>().isKinematic = true;
             other.gameObject.GetComponent<BoxCollider>().enabled = false;
+
         }
         
 
     }
-    void Start()
+    // set parent / position and rotation to weapon type position
+    private void PositionChoice(Transform position, GameObject weapon)
     {
-        
+        weapon.transform.SetParent(position);
+        weapon.transform.rotation = position.rotation;
+        weapon.transform.position = position.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ChangeCharacteristic(GameObject weapon)
     {
-      //Debug.Log(weaponInventory.Weapons.Count);
+        weapon.GetComponent<Rigidbody>().isKinematic = true;
+        weapon.GetComponent<BoxCollider>().enabled = false;
     }
 }

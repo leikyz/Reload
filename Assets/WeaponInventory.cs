@@ -13,15 +13,4 @@ public class WeaponInventory : MonoBehaviour
         get { return weapons; }
         set { weapons = value; }
     }
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

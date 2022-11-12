@@ -19,7 +19,6 @@ public class WeaponWheelButton : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private bool isSelected = false;
     [SerializeField] WeaponsController weapon;
-    [SerializeField] private Transform weaponPosition;
     [SerializeField] private Transform rigLeftHand;
     [SerializeField] private WeaponWheelController weaponWheelController;
     [SerializeField] private PlayerShooterController playerShooterController;
@@ -73,7 +72,7 @@ public class WeaponWheelButton : MonoBehaviour
         }
         isSelected = true;
         weaponWheelController.ButtonSelected = Id;
-        weaponWheelController.EquipWeapon(Weapon, weaponPosition, rigLeftHand, weaponType);
+        weaponWheelController.EquipWeapon(Weapon, weapon.EquipedPosition, rigLeftHand, weaponType);
       
     }
 

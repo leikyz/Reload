@@ -14,6 +14,7 @@ public class WeaponsController : MonoBehaviour
     [SerializeField] private Transform spawnBulletProjectile;
     [SerializeField] private Transform leftHandGrip;
     [SerializeField] private Transform backPosition;
+    [SerializeField] private Transform equipedPosition;
 
     private PlayerShooterController shooterController;
     [SerializeField] private bool readyToShoot;
@@ -24,6 +25,11 @@ public class WeaponsController : MonoBehaviour
     private bool isUsed = false;
    [SerializeField] private Cinemachine.CinemachineVirtualCamera aimVirtualCamera;
 
+    public Transform EquipedPosition
+    {
+        get { return equipedPosition; }
+        set { equipedPosition = value; }
+    }
     public Transform BackPosition
     {
         get { return backPosition; }
