@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class WeaponWheelController : MonoBehaviour
 {
@@ -22,10 +23,6 @@ public class WeaponWheelController : MonoBehaviour
 
     [SerializeField] private TimeController timeController;
 
-    //[SerializeField] private Transform back;
-
-    //[SerializeField] private WeaponWheelButton weapon;
-
     [SerializeField] private WeaponInventory weaponInventory;
 
     [SerializeField] private PlayerShooterController playerShooterController;
@@ -33,6 +30,16 @@ public class WeaponWheelController : MonoBehaviour
     [SerializeField] private List<WeaponWheelButton> weaponsSlots = new List<WeaponWheelButton>();
 
     [SerializeField] private Animator animator;
+
+    //weapon info
+    [SerializeField] private TextMeshProUGUI weaponNameText;
+    [SerializeField] private TextMeshProUGUI weaponTypeText;
+    [SerializeField] private TextMeshProUGUI firingRateText;
+    [SerializeField] private TextMeshProUGUI bulletsInLoaderText;
+    [SerializeField] private TextMeshProUGUI BulletsInAllText;
+    [SerializeField] private UnityEngine.UI.Image visual;
+    [SerializeField] private Sprite transparent;
+
 
     void Start()
     {
@@ -88,7 +95,7 @@ public class WeaponWheelController : MonoBehaviour
             {
                 weaponSlot.Weapon = weaponInventory.Weapons[weaponSlot.WeaponType];
                 weaponSlot.ItemName = weaponInventory.Weapons[weaponSlot.WeaponType].WeaponData.name;
-                weaponSlot.Icon.sprite = weaponInventory.Weapons[weaponSlot.WeaponType].WeaponData.visual;
+                weaponSlot.Icon.sprite = weaponInventory.Weapons[weaponSlot.WeaponType].WeaponData.visualIcon;
             }
                 
         }
@@ -138,5 +145,28 @@ public class WeaponWheelController : MonoBehaviour
                 weaponEquiped.gameObject.transform.rotation = weaponEquiped.BackPosition.rotation;
             }
         }
+    }
+
+    public void ShowWeaponInformations(WeaponsController weapon)
+    {
+        if (weapon != null)
+        {
+            weaponNameText.text = weapon.WeaponData.name;
+            weaponTypeText.text = weapon.WeaponData.weaponType.ToString();
+            firingRateText.text = weapon.WeaponData.weaponFiringRate.ToString();
+            bulletsInLoaderText.text = weapon.BulletsInLoader.ToString();
+            BulletsInAllText.text = weapon.BulletsInAll.ToString();
+            visual.sprite = weapon.WeaponData.visual;
+        }    
+    }
+
+    public void ResetWeaponInformations()
+    {
+        weaponNameText.text = "";
+        weaponTypeText.text = "";
+        firingRateText.text = "";
+        bulletsInLoaderText.text = "";
+        BulletsInAllText.text = "";
+        visual.sprite = transparent;
     }
 }

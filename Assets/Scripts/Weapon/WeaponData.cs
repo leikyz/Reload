@@ -17,6 +17,7 @@ public class WeaponData : ScriptableObject
     public AudioClip shootSound;
     public AudioClip reloadSound;
     public WeaponTypeEnum weaponType;
+    public WeaponFiringRateEnum weaponFiringRate;
     public float shakeAmplitude;
     public float shakeFrequency;
     public float bulletDelay;

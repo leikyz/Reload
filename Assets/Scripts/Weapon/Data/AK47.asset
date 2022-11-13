@@ -13,16 +13,19 @@ MonoBehaviour:
   m_Name: AK47
   m_EditorClassIdentifier: 
   named: AK47
-  visual: {fileID: 21300000, guid: debd77d461fed83498970ad998ffd743, type: 3}
+  visualIcon: {fileID: 21300000, guid: debd77d461fed83498970ad998ffd743, type: 3}
+  visual: {fileID: 21300000, guid: e7956aa7c687c0744a09221b48406843, type: 3}
   prefab: {fileID: 1918626580190655574, guid: a5cab8b809b248946a0b2cff26fac980, type: 3}
+  prefabs: {fileID: 0}
   bulletsAmountMax: 30
   bulletsAmountAllMax: 250
-  bulletPrefab: {fileID: 8304286932158020221, guid: 71e0003aee283c443aa5d26f74b44031,
+  bulletPrefab: {fileID: 5203671264178650658, guid: 68d418b46bb2e2d438eff21cd0ae6f80,
     type: 3}
   bulletSpeed: 1
-  shootSound: {fileID: 8300000, guid: 1b145bcffd767854fb0c71c37678ebaa, type: 3}
-  reloadSound: {fileID: 8300000, guid: bae932194ee24f84ab77086804912d3a, type: 3}
+  shootSound: {fileID: 8300000, guid: 40f57dc878925584d8ce7c956635ad89, type: 3}
+  reloadSound: {fileID: 8300000, guid: 9a39b934ef3036849a7671471de3a306, type: 3}
   weaponType: 1
+  weaponFiringRate: 2
   shakeAmplitude: 0.2
   shakeFrequency: 1
   bulletDelay: 0.2

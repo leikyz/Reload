@@ -10,11 +10,6 @@ public class WeaponWheelButton : MonoBehaviour
 
     [SerializeField] private int Id;
     [SerializeField] private string itemName;
-
-    [SerializeField] private TextMeshProUGUI itemText;
-    [SerializeField] private TextMeshProUGUI bulletsInLoader;
-    [SerializeField] private TextMeshProUGUI BulletsInAll;
-
     [SerializeField] private WeaponTypeEnum weaponType;
     [SerializeField] private Image icon;
     [SerializeField] private bool isSelected = false;
@@ -67,8 +62,7 @@ public class WeaponWheelButton : MonoBehaviour
     {
         if (weapon != null)
         {
-            bulletsInLoader.text = weapon.BulletsInLoader.ToString();
-            BulletsInAll.text = weapon.BulletsInAll.ToString();
+            weaponWheelController.ShowWeaponInformations(weapon);
         }
         isSelected = true;
         weaponWheelController.ButtonSelected = Id;
@@ -84,15 +78,11 @@ public class WeaponWheelButton : MonoBehaviour
     {
         if (weapon != null)
         {
-            bulletsInLoader.text = weapon.BulletsInLoader.ToString();
-            BulletsInAll.text = weapon.BulletsInAll.ToString();
+            weaponWheelController.ShowWeaponInformations(weapon);
         }
-        itemText.text = itemName;
     }
     public void HoverExit()
     {
-        itemText.text = "";
-        bulletsInLoader.text = "";
-        BulletsInAll.text = "";
+        weaponWheelController.ResetWeaponInformations();
     }
 }

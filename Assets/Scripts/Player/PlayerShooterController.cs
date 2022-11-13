@@ -136,8 +136,7 @@ public class PlayerShooterController : MonoBehaviour
     {
         armedRigWeight = 0;
         isReloading = true;
-        //weapon.AudioSource.clip = weapon.WeaponData.reloadSound;
-        weapon.AudioSource.Play();
+       
         animator.SetBool("IsReloading", true);
     }
     void Update()
@@ -157,7 +156,7 @@ public class PlayerShooterController : MonoBehaviour
 
     private void HandleArmed()
     {
-        if (weaponTypeEnumActual == WeaponTypeEnum.ASSAULT_RIFFLE)
+        if (weaponTypeEnumActual == WeaponTypeEnum.ASSAULT_RIFFLE || weaponTypeEnumActual == WeaponTypeEnum.HEAVY_WEAPON)
             armedRigWeight = 1f;
         else
             armedRigWeight = 0f;

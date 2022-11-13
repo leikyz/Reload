@@ -13,16 +13,19 @@ MonoBehaviour:
   m_Name: AN-94
   m_EditorClassIdentifier: 
   named: AN-94
-  visual: {fileID: 21300000, guid: 559ac06dcbd5b564d94a6aa2694b7169, type: 3}
+  visualIcon: {fileID: 21300000, guid: 559ac06dcbd5b564d94a6aa2694b7169, type: 3}
+  visual: {fileID: 21300000, guid: 5d1436eb3ed50b346936bbb3930e196a, type: 3}
   prefab: {fileID: 1446648945068182433, guid: f3d2a5430ee563a438c071ab4263c649, type: 3}
+  prefabs: {fileID: 5203671264178650658, guid: 68d418b46bb2e2d438eff21cd0ae6f80, type: 3}
   bulletsAmountMax: 40
   bulletsAmountAllMax: 250
   bulletPrefab: {fileID: 8304286932158020221, guid: 71e0003aee283c443aa5d26f74b44031,
     type: 3}
   bulletSpeed: 1
-  shootSound: {fileID: 8300000, guid: 8581f806dddef8046b4942de05b897be, type: 3}
-  reloadSound: {fileID: 8300000, guid: bae932194ee24f84ab77086804912d3a, type: 3}
+  shootSound: {fileID: 8300000, guid: 3fdc1a87550c1fa4eb27e9de8c9e4bf8, type: 3}
+  reloadSound: {fileID: 8300000, guid: 5007a1f026711d54db03f6ebbfd0abb9, type: 3}
   weaponType: 1
+  weaponFiringRate: 3
   shakeAmplitude: 0.2
   shakeFrequency: 1
-  bulletDelay: 0.1
+  bulletDelay: 0.15

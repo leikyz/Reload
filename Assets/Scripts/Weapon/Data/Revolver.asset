@@ -13,17 +13,19 @@ MonoBehaviour:
   m_Name: Revolver
   m_EditorClassIdentifier: 
   named: Revolver
-  visual: {fileID: 21300000, guid: 559ac06dcbd5b564d94a6aa2694b7169, type: 3}
+  visualIcon: {fileID: 21300000, guid: 37e4cf6ef802b844dac6d72b72bf81ff, type: 3}
+  visual: {fileID: 21300000, guid: 0352e3c2e87b11b4794243db5e5eeb72, type: 3}
   prefab: {fileID: 3226118659470229180, guid: aa8f4cc78288d224ea74f424a60ae58d, type: 3}
   prefabs: {fileID: 0}
   bulletsAmountMax: 5
   bulletsAmountAllMax: 50
-  bulletPrefab: {fileID: 1703263380272892, guid: 7af0025c87c32d548bd8331f3955239a,
+  bulletPrefab: {fileID: 5203671264178650658, guid: 68d418b46bb2e2d438eff21cd0ae6f80,
     type: 3}
   bulletSpeed: 0
-  shootSound: {fileID: 8300000, guid: fd3895a2d40b7c0438eb055779a0f92a, type: 3}
-  reloadSound: {fileID: 8300000, guid: bae932194ee24f84ab77086804912d3a, type: 3}
+  shootSound: {fileID: 8300000, guid: 69baec05e61747742bc8f30c771a6965, type: 3}
+  reloadSound: {fileID: 8300000, guid: fd96fdb3487538f4990284c7a1aeab3f, type: 3}
   weaponType: 2
+  weaponFiringRate: 1
   shakeAmplitude: 0.3
   shakeFrequency: 1
   bulletDelay: 0.7

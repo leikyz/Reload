@@ -108,6 +108,8 @@ public class WeaponsController : MonoBehaviour
 
     public void Reload()
     {
+        AudioSource.clip = WeaponData.reloadSound;
+        AudioSource.Play();
         var bulletNeed = weaponData.bulletsAmountMax - BulletsInLoader;
         if (_bulletsInAll > weaponData.bulletsAmountMax)
         {
@@ -147,6 +149,11 @@ public class WeaponsController : MonoBehaviour
     {
         readyToShoot = true;
         ShakeCamera(0, 0);
+    }
+
+    public void ReloadSound()
+    {
+
     }
 
     private void ShakeCamera(float amplitude, float frequency)

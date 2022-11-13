@@ -1,18 +1,14 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-
-public class WeaponFiringRateEnum : MonoBehaviour
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+public enum WeaponFiringRateEnum
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    NONE = -1,
+    SLOW = 1,
+    NORMAL,
+    FAST,
+    VERY_FAST,
 }
+

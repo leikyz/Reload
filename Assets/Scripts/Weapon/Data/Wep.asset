@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b505dd3063db042846a1748c0a93d9, type: 3}
+  m_Name: Wep
+  m_EditorClassIdentifier: 
+  named: Wep
+  visualIcon: {fileID: 21300000, guid: 18f5356b5bd2f9c4080e4698dd769e21, type: 3}
+  visual: {fileID: 21300000, guid: 78a9101f745fcfb4b924557003c97b52, type: 3}
+  prefab: {fileID: 0}
+  prefabs: {fileID: 0}
+  bulletsAmountMax: 50
+  bulletsAmountAllMax: 500
+  bulletPrefab: {fileID: 5203671264178650658, guid: 68d418b46bb2e2d438eff21cd0ae6f80,
+    type: 3}
+  bulletSpeed: 1
+  shootSound: {fileID: 8300000, guid: 3ca4a84376db246488b6eae04a1291cc, type: 3}
+  reloadSound: {fileID: 8300000, guid: 5007a1f026711d54db03f6ebbfd0abb9, type: 3}
+  weaponType: 6
+  weaponFiringRate: 1
+  shakeAmplitude: 0.2
+  shakeFrequency: 1
+  bulletDelay: 0.25
