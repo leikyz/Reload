@@ -6,6 +6,7 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     public string named;
+    public Sprite visualIcon;
     public Sprite visual;
     public GameObject prefab;
     public GameObject prefabs;
