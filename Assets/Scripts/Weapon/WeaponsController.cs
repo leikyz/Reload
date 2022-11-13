@@ -20,10 +20,17 @@ public class WeaponsController : MonoBehaviour
     [SerializeField] private bool readyToShoot;
 
     [SerializeField] private ParticleSystem fxShoot;
+    [SerializeField] private ParticleSystem fxGround;
     private AudioSource audioSource;
 
     private bool isUsed = false;
    [SerializeField] private Cinemachine.CinemachineVirtualCamera aimVirtualCamera;
+
+    public ParticleSystem FxGround
+    {
+        get { return this.fxGround; }
+        set { this.fxGround = value; }
+    }
 
     public Transform EquipedPosition
     {
