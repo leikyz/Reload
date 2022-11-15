@@ -123,6 +123,7 @@ public class WeaponWheelController : MonoBehaviour
 
         // actualise le type / l'arme / le grip de la main gauche et active l'arme
         playerShooterController.IsArmed = true;
+        playerShooterController.IsTakingWeapon = true;
         playerShooterController.WeaponTypeEnumActual = weaponTypeEnum;
         playerShooterController.Weapon = weapon;
         leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;

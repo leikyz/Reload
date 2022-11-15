@@ -5,21 +5,38 @@ using UnityEngine;
 public class PlayerPickingWeapon : MonoBehaviour
 {
     [SerializeField] private WeaponInventory weaponInventory;
-    [SerializeField] private PlayerShooterController playerMovementController;
+    [SerializeField] private Animator animator;
+    [SerializeField] private PlayerShooterController playerShooterController;
     [SerializeField] private TMPro.TextMeshProUGUI textMeshPro;
 
+
+    private float pickingLayerWeight;
+    private bool isPicking;
+    private GameObject weapon;
+
     private Transform position;
+
+    private void Update()
+    {
+        animator.SetLayerWeight(4, Mathf.Lerp(animator.GetLayerWeight(4), pickingLayerWeight, Time.deltaTime * 5f));
+        animator.SetBool("IsPicking", isPicking);
+    }
 
     private void OnTriggerStay(Collider other)
     {
 
         if (other.gameObject.CompareTag("Weapon"))
         {
+            
             textMeshPro.gameObject.SetActive(true);
             textMeshPro.text = WeaponPickingText(other.gameObject.GetComponent<WeaponsController>(), weaponInventory);
             // check if a same weapon type is already in weapon inventory, to get one weapon by type in weapon wheel 
             if (Input.GetKey(KeyCode.B))
             {
+                weapon = other.gameObject;
+                pickingLayerWeight = 1;
+                
+                isPicking = true;
                 textMeshPro.gameObject.SetActive(false);
                 if (weaponInventory.Weapons.ContainsKey(other.GetComponent<WeaponsController>().WeaponData.weaponType))
                 {
@@ -35,21 +52,22 @@ public class PlayerPickingWeapon : MonoBehaviour
                 }
 
                 //check if weapon is a same weapontype is already equiped, change position of weapon depending on the value (back position or equiped position)
-                if (playerMovementController.Weapon != null && playerMovementController.Weapon.WeaponData.weaponType == other.GetComponent<WeaponsController>().WeaponData.weaponType)
-                {
+                //if (playerShooterController.Weapon != null && playerShooterController.Weapon.WeaponData.weaponType == other.GetComponent<WeaponsController>().WeaponData.weaponType)
+                //{
                     position = other.GetComponent<WeaponsController>().EquipedPosition;
-                    playerMovementController.Weapon = other.GetComponent<WeaponsController>();
-                }
-                else
-                {
-                    position = other.GetComponent<WeaponsController>().BackPosition;
-                }
+                    playerShooterController.Weapon = other.GetComponent<WeaponsController>();
+                //}
+                //else
+                //{
+                //    position = other.GetComponent<WeaponsController>().BackPosition;
+                //}
 
-                if (position != null)
-                    PositionChoice(position, other.gameObject);
+                //if (position != null)
+                //    PositionChoice(position, other.gameObject);
 
                 ChangeCharacteristic(other.gameObject);
             }
+
         }
     }
 
@@ -82,5 +100,21 @@ public class PlayerPickingWeapon : MonoBehaviour
         if ((weaponInventory.Weapons.ContainsKey(weapon.WeaponData.weaponType)))
             sentence += "\n Attention cela remplacera l'arme actuel";
         return sentence;   
+    }
+
+    public void AddWeaponToHand()
+    {
+        PositionChoice(weapon.GetComponent<WeaponsController>().EquipedPosition, weapon);
+    }
+
+    public void AnimatorSetPicking()
+    {
+        isPicking = false;
+        pickingLayerWeight = 0;
+    }
+
+    public void AddWeaponToBack()
+    {
+        PositionChoice(weapon.GetComponent<WeaponsController>().BackPosition, weapon);
     }
 } 

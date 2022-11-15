@@ -28,6 +28,7 @@ public class PlayerShooterController : MonoBehaviour
     [SerializeField] private bool isShooting = false;
     [SerializeField] private bool isReloading = false;
     [SerializeField] private bool isArmed = false;
+    [SerializeField] private bool isTakingWeapon = false;
     [SerializeField] private WeaponTypeEnum weaponTypeEnumActual;
 
     private float aimRigWeight = 0;
@@ -43,6 +44,12 @@ public class PlayerShooterController : MonoBehaviour
     {
         get { return weapon; }
         set { weapon = value; }
+    }
+
+    public bool IsTakingWeapon
+    {
+        get { return isTakingWeapon; }
+        set { isTakingWeapon = value; }
     }
 
     public bool IsArmed
@@ -143,6 +150,8 @@ public class PlayerShooterController : MonoBehaviour
     {
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
         leftHandRig.weight = Mathf.Lerp(leftHandRig.weight, leftHandWeight, Time.deltaTime * 20f);
+        animator.SetBool("IsTakingWeapon", IsTakingWeapon);
+
 
         RotatePlayerOnAimed(MousePosition());
         if (isArmed)
@@ -151,7 +160,6 @@ public class PlayerShooterController : MonoBehaviour
             HandleAiming();
             HandleShooting();
         }
-
     }
 
     private void HandleArmed()
@@ -240,5 +248,10 @@ public class PlayerShooterController : MonoBehaviour
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 10f);
         }      
+    }
+
+    public void AnimatorSetArmed()
+    {
+        IsTakingWeapon = false;
     }
 }
