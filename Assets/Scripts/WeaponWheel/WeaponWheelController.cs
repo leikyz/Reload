@@ -110,7 +110,7 @@ public class WeaponWheelController : MonoBehaviour
     public void EquipWeapon(WeaponsController weapon, Transform weaponPosition, Transform leftHandGrip, WeaponTypeEnum weaponTypeEnum)
     {
         UnequipWeapon();
-
+        animator.SetLayerWeight(5, Mathf.Lerp(animator.GetLayerWeight(5), 1, Time.deltaTime * 5f));
 
         // si n'a jamais été équiper, l'ajoute à l'endroit dédier au type d'arme
         if (weapon.gameObject.transform.position != weaponPosition.position)

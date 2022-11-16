@@ -151,7 +151,7 @@ public class PlayerShooterController : MonoBehaviour
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
         leftHandRig.weight = Mathf.Lerp(leftHandRig.weight, leftHandWeight, Time.deltaTime * 20f);
         animator.SetBool("IsTakingWeapon", IsTakingWeapon);
-
+        animator.SetBool("IsArmed", IsArmed);
 
         RotatePlayerOnAimed(MousePosition());
         if (isArmed)
