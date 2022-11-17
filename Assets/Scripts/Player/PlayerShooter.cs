@@ -5,7 +5,7 @@ using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 
-public class PlayerShooterController : MonoBehaviour
+public class PlayerShooter : MonoBehaviour
 {
     private PlayerInput playerInput;
     private InputAction aimAction;
@@ -19,10 +19,10 @@ public class PlayerShooterController : MonoBehaviour
     [SerializeField] private LayerMask aimColliderMask = new();
 
     [SerializeField] private Transform debugTransform;
-    [SerializeField] private WeaponsController weapon;
+    [SerializeField] private Weapons weapon;
 
     private Animator animator;
-    private PlayerMovementController playerMovementController;
+    private PlayerMovement playerMovementController;
 
     [SerializeField] private bool isAiming = false;
     [SerializeField] private bool isShooting = false;
@@ -40,7 +40,7 @@ public class PlayerShooterController : MonoBehaviour
         get { return weaponTypeEnumActual; }
         set { weaponTypeEnumActual = value; }
     }
-    public WeaponsController Weapon
+    public Weapons Weapon
     {
         get { return weapon; }
         set { weapon = value; }
@@ -91,7 +91,7 @@ public class PlayerShooterController : MonoBehaviour
 
         reloadAction.performed += OnReloadStarted;
 
-        playerMovementController = GetComponent<PlayerMovementController>();
+        playerMovementController = GetComponent<PlayerMovement>();
     }
 
     private void OnAimStarted(InputAction.CallbackContext obj)
@@ -150,7 +150,6 @@ public class PlayerShooterController : MonoBehaviour
     {
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
         leftHandRig.weight = Mathf.Lerp(leftHandRig.weight, leftHandWeight, Time.deltaTime * 20f);
-        animator.SetBool("IsTakingWeapon", IsTakingWeapon);
         animator.SetBool("IsArmed", IsArmed);
 
         RotatePlayerOnAimed(MousePosition());
@@ -250,8 +249,8 @@ public class PlayerShooterController : MonoBehaviour
         }      
     }
 
-    public void AnimatorSetArmed()
-    {
-        IsTakingWeapon = false;
-    }
+    //public void AnimatorSetArmed()
+    //{
+    //    IsTakingWeapon = false;
+    //}
 }

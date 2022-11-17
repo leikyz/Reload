@@ -7,7 +7,7 @@ using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 using TMPro;
 
-public class WeaponWheelController : MonoBehaviour
+public class WeaponWheel : MonoBehaviour
 {
     public GameObject weaponWheel;
 
@@ -25,7 +25,7 @@ public class WeaponWheelController : MonoBehaviour
 
     [SerializeField] private WeaponInventory weaponInventory;
 
-    [SerializeField] private PlayerShooterController playerShooterController;
+    [SerializeField] private PlayerShooter playerShooterController;
 
     [SerializeField] private List<WeaponWheelButton> weaponsSlots = new List<WeaponWheelButton>();
 
@@ -107,22 +107,22 @@ public class WeaponWheelController : MonoBehaviour
             weaponSlot.IsSelected = false;
     }
 
-    public void EquipWeapon(WeaponsController weapon, Transform weaponPosition, Transform leftHandGrip, WeaponTypeEnum weaponTypeEnum)
+    public void EquipWeapon(Weapons weapon, Transform leftHandGrip, WeaponTypeEnum weaponTypeEnum)
     {
-        UnequipWeapon();
-        animator.SetLayerWeight(5, Mathf.Lerp(animator.GetLayerWeight(5), 1, Time.deltaTime * 5f));
+        //UnequipWeapon();
+        animator.SetLayerWeight(5, 1);
 
         // si n'a jamais été équiper, l'ajoute à l'endroit dédier au type d'arme
-        if (weapon.gameObject.transform.position != weaponPosition.position)
+        if (weapon.gameObject.transform.position != weapon.EquipedPosition.position)
         {
             weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
-            weapon.gameObject.transform.SetParent(weaponPosition);
-            weapon.gameObject.transform.position = weaponPosition.position;
-            weapon.gameObject.transform.rotation = weaponPosition.rotation;                       
+            weapon.gameObject.transform.SetParent(weapon.EquipedPosition);
+            weapon.gameObject.transform.position = weapon.EquipedPosition.position;
+            weapon.gameObject.transform.rotation = weapon.EquipedPosition.rotation;                       
         }
 
         // actualise le type / l'arme / le grip de la main gauche et active l'arme
-        playerShooterController.IsArmed = true;
+        //playerShooterController.IsArmed = true;
         playerShooterController.IsTakingWeapon = true;
         playerShooterController.WeaponTypeEnumActual = weaponTypeEnum;
         playerShooterController.Weapon = weapon;
@@ -138,7 +138,7 @@ public class WeaponWheelController : MonoBehaviour
         // retrouve l'arme active pour la désactiver quand une nouvelle est sélectionnée
         if (playerShooterController.Weapon != null)
         {
-            var weaponEquiped = playerShooterController.gameObject.GetComponentsInChildren<WeaponsController>(true).First(x => x.gameObject.name == playerShooterController.Weapon.WeaponData.name);
+            var weaponEquiped = playerShooterController.gameObject.GetComponentsInChildren<Weapons>(true).First(x => x.gameObject.name == playerShooterController.Weapon.WeaponData.name);
             if (weaponEquiped != null)
             {
                 weaponEquiped.gameObject.transform.SetParent(weaponEquiped.BackPosition);
@@ -148,7 +148,7 @@ public class WeaponWheelController : MonoBehaviour
         }
     }
 
-    public void ShowWeaponInformations(WeaponsController weapon)
+    public void ShowWeaponInformations(Weapons weapon)
     {
         if (weapon != null)
         {

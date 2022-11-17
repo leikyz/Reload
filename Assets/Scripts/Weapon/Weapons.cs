@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class WeaponsController : MonoBehaviour
+public class Weapons : MonoBehaviour
 {
     [SerializeField] private WeaponData weaponData;
     [SerializeField] private int _bulletsInLoader;
@@ -16,7 +16,7 @@ public class WeaponsController : MonoBehaviour
     [SerializeField] private Transform backPosition;
     [SerializeField] private Transform equipedPosition;
 
-    private PlayerShooterController shooterController;
+    private PlayerShooter shooterController;
     [SerializeField] private bool readyToShoot;
 
     [SerializeField] private ParticleSystem fxShoot;
@@ -88,7 +88,7 @@ public class WeaponsController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         //leftHandGrip = GetComponentsInChildren<Transform>().First(x => x.name == "leftHandGrip");
         audioSource = GetComponent<AudioSource>();
-        shooterController = GameObject.Find("Player").gameObject.GetComponent<PlayerShooterController>();
+        shooterController = GameObject.Find("Player").gameObject.GetComponent<PlayerShooter>();
         GetComponentsInChildren<Transform>().First(x => x.gameObject.name == "leftHandGrip");
         readyToShoot = true;
     }

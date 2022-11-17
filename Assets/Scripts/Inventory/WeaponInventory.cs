@@ -6,9 +6,9 @@ public class WeaponInventory : MonoBehaviour
 {
     // slots
 
-    [SerializeField] private Dictionary<WeaponTypeEnum, WeaponsController> weapons = new();
+    [SerializeField] private Dictionary<WeaponTypeEnum, Weapons> weapons = new();
 
-    public Dictionary<WeaponTypeEnum, WeaponsController> Weapons
+    public Dictionary<WeaponTypeEnum, Weapons> Weapons
     {
         get { return weapons; }
         set { weapons = value; }

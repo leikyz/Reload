@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovementController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float playerSpeed = 2.0f;
     [SerializeField] private float jumpHeight = 1.0f;
@@ -15,7 +15,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private bool isGrounded;
 
     private CharacterController controller;
-    private PlayerShooterController shooterController;
+    private PlayerShooter shooterController;
     private Vector3 playerVelocity;
 
     [SerializeField] private bool rotateOnMove = true;
@@ -51,7 +51,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Start()
     {
-        shooterController = GetComponent<PlayerShooterController>();
+        shooterController = GetComponent<PlayerShooter>();
         animator = GetComponent<Animator>();
         cameraTransform = Camera.main.transform;
         playerInput = GetComponent<PlayerInput>();

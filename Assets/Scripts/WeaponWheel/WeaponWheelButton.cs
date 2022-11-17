@@ -13,13 +13,13 @@ public class WeaponWheelButton : MonoBehaviour
     [SerializeField] private WeaponTypeEnum weaponType;
     [SerializeField] private Image icon;
     [SerializeField] private bool isSelected = false;
-    [SerializeField] WeaponsController weapon;
+    [SerializeField] Weapons weapon;
     [SerializeField] private Transform rigLeftHand;
-    [SerializeField] private WeaponWheelController weaponWheelController;
-    [SerializeField] private PlayerShooterController playerShooterController;
+    [SerializeField] private WeaponWheel weaponWheelController;
+    [SerializeField] private PlayerShooter playerShooterController;
     // Start is called before the first frame update
 
-    public WeaponsController Weapon
+    public Weapons Weapon
     {
         get { return weapon; }
         set { weapon = value; }
@@ -66,7 +66,7 @@ public class WeaponWheelButton : MonoBehaviour
         }
         isSelected = true;
         weaponWheelController.ButtonSelected = Id;
-        weaponWheelController.EquipWeapon(Weapon, weapon.EquipedPosition, rigLeftHand, weaponType);
+        weaponWheelController.EquipWeapon(Weapon, rigLeftHand, weaponType);
       
     }
 

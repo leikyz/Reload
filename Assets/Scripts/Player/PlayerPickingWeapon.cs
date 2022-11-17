@@ -6,7 +6,7 @@ public class PlayerPickingWeapon : MonoBehaviour
 {
     [SerializeField] private WeaponInventory weaponInventory;
     [SerializeField] private Animator animator;
-    [SerializeField] private PlayerShooterController playerShooterController;
+    [SerializeField] private PlayerShooter playerShooterController;
     [SerializeField] private TMPro.TextMeshProUGUI textMeshPro;
 
 
@@ -29,7 +29,7 @@ public class PlayerPickingWeapon : MonoBehaviour
         {
             
             textMeshPro.gameObject.SetActive(true);
-            textMeshPro.text = WeaponPickingText(other.gameObject.GetComponent<WeaponsController>(), weaponInventory);
+            textMeshPro.text = WeaponPickingText(other.gameObject.GetComponent<Weapons>(), weaponInventory);
             // check if a same weapon type is already in weapon inventory, to get one weapon by type in weapon wheel 
             if (Input.GetKey(KeyCode.B))
             {
@@ -38,24 +38,24 @@ public class PlayerPickingWeapon : MonoBehaviour
                 
                 isPicking = true;
                 textMeshPro.gameObject.SetActive(false);
-                if (weaponInventory.Weapons.ContainsKey(other.GetComponent<WeaponsController>().WeaponData.weaponType))
+                if (weaponInventory.Weapons.ContainsKey(other.GetComponent<Weapons>().WeaponData.weaponType))
                 {
-                    weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.transform.SetParent(null);
-                    weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<WeaponsController>().FxGround.Play();
-                    weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<Rigidbody>().isKinematic = false;
-                    weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType].gameObject.GetComponent<BoxCollider>().enabled = true;
-                    weaponInventory.Weapons[other.GetComponent<WeaponsController>().WeaponData.weaponType] = other.GetComponent<WeaponsController>();
+                    weaponInventory.Weapons[other.GetComponent<Weapons>().WeaponData.weaponType].gameObject.transform.SetParent(null);
+                    weaponInventory.Weapons[other.GetComponent<Weapons>().WeaponData.weaponType].gameObject.GetComponent<Weapons>().FxGround.Play();
+                    weaponInventory.Weapons[other.GetComponent<Weapons>().WeaponData.weaponType].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                    weaponInventory.Weapons[other.GetComponent<Weapons>().WeaponData.weaponType].gameObject.GetComponent<BoxCollider>().enabled = true;
+                    weaponInventory.Weapons[other.GetComponent<Weapons>().WeaponData.weaponType] = other.GetComponent<Weapons>();
                 }
                 else
                 {
-                    weaponInventory.Weapons.Add(other.GetComponent<WeaponsController>().WeaponData.weaponType, other.GetComponent<WeaponsController>());
+                    weaponInventory.Weapons.Add(other.GetComponent<Weapons>().WeaponData.weaponType, other.GetComponent<Weapons>());
                 }
 
                 //check if weapon is a same weapontype is already equiped, change position of weapon depending on the value (back position or equiped position)
                 //if (playerShooterController.Weapon != null && playerShooterController.Weapon.WeaponData.weaponType == other.GetComponent<WeaponsController>().WeaponData.weaponType)
                 //{
-                    position = other.GetComponent<WeaponsController>().EquipedPosition;
-                    playerShooterController.Weapon = other.GetComponent<WeaponsController>();
+                    position = other.GetComponent<Weapons>().EquipedPosition;
+                    playerShooterController.Weapon = other.GetComponent<Weapons>();
                 //}
                 //else
                 //{
@@ -88,11 +88,11 @@ public class PlayerPickingWeapon : MonoBehaviour
     {
         weapon.GetComponent<BoxCollider>().enabled = false;
         weapon.GetComponent<Rigidbody>().isKinematic = true;
-        weapon.GetComponent<WeaponsController>().FxGround.Stop();
+        weapon.GetComponent<Weapons>().FxGround.Stop();
 
     }
 
-    private string WeaponPickingText(WeaponsController weapon, WeaponInventory weaponInventory)
+    private string WeaponPickingText(Weapons weapon, WeaponInventory weaponInventory)
     {
    
         var sentence = "Appuyer sur B pour prendre " + weapon.gameObject.name; ;
@@ -104,7 +104,7 @@ public class PlayerPickingWeapon : MonoBehaviour
 
     public void AddWeaponToHand()
     {
-        PositionChoice(weapon.GetComponent<WeaponsController>().EquipedPosition, weapon);
+        PositionChoice(weapon.GetComponent<Weapons>().EquipedPosition, weapon);
     }
 
     public void AnimatorSetPicking()
@@ -115,6 +115,9 @@ public class PlayerPickingWeapon : MonoBehaviour
 
     public void AddWeaponToBack()
     {
-        PositionChoice(weapon.GetComponent<WeaponsController>().BackPosition, weapon);
+        if (playerShooterController.Weapon == null)
+            PositionChoice(weapon.GetComponent<Weapons>().BackPosition, weapon.gameObject);
+        else
+            PositionChoice(weapon.GetComponent<Weapons>().BackPosition, playerShooterController.Weapon.gameObject);
     }
 } 
