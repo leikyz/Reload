@@ -14,9 +14,9 @@ public class WeaponWheelButton : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private bool isSelected = false;
     [SerializeField] Weapons weapon;
-    [SerializeField] private Transform rigLeftHand;
     [SerializeField] private WeaponWheel weaponWheelController;
     [SerializeField] private PlayerShooter playerShooterController;
+    [SerializeField] private PlayerTakingWeapon playerSwitchWeapon;
     // Start is called before the first frame update
 
     public Weapons Weapon
@@ -66,7 +66,7 @@ public class WeaponWheelButton : MonoBehaviour
         }
         isSelected = true;
         weaponWheelController.ButtonSelected = Id;
-        weaponWheelController.EquipWeapon(Weapon, rigLeftHand, weaponType);
+        //playerSwitchWeapon.EquipWeapon(Weapon, playerSwitchWeapon.LeftHandGrip, weaponType, true);
       
     }
 

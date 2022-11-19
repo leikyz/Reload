@@ -107,32 +107,6 @@ public class WeaponWheel : MonoBehaviour
             weaponSlot.IsSelected = false;
     }
 
-    public void EquipWeapon(Weapons weapon, Transform leftHandGrip, WeaponTypeEnum weaponTypeEnum)
-    {
-        //UnequipWeapon();
-        animator.SetLayerWeight(5, 1);
-
-        // si n'a jamais été équiper, l'ajoute à l'endroit dédier au type d'arme
-        if (weapon.gameObject.transform.position != weapon.EquipedPosition.position)
-        {
-            weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
-            weapon.gameObject.transform.SetParent(weapon.EquipedPosition);
-            weapon.gameObject.transform.position = weapon.EquipedPosition.position;
-            weapon.gameObject.transform.rotation = weapon.EquipedPosition.rotation;                       
-        }
-
-        // actualise le type / l'arme / le grip de la main gauche et active l'arme
-        //playerShooterController.IsArmed = true;
-        playerShooterController.IsTakingWeapon = true;
-        playerShooterController.WeaponTypeEnumActual = weaponTypeEnum;
-        playerShooterController.Weapon = weapon;
-        leftHandGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;
-        weapon.gameObject.SetActive(true);
-        rigB.Build();
-    }
-
-
-
     public void UnequipWeapon()
     {
         // retrouve l'arme active pour la désactiver quand une nouvelle est sélectionnée

@@ -28,7 +28,6 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private bool isShooting = false;
     [SerializeField] private bool isReloading = false;
     [SerializeField] private bool isArmed = false;
-    [SerializeField] private bool isTakingWeapon = false;
     [SerializeField] private WeaponTypeEnum weaponTypeEnumActual;
 
     private float aimRigWeight = 0;
@@ -45,13 +44,6 @@ public class PlayerShooter : MonoBehaviour
         get { return weapon; }
         set { weapon = value; }
     }
-
-    public bool IsTakingWeapon
-    {
-        get { return isTakingWeapon; }
-        set { isTakingWeapon = value; }
-    }
-
     public bool IsArmed
     {
         get { return isArmed; }
