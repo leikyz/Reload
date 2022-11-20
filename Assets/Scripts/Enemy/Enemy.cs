@@ -17,9 +17,15 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private Image healthBarSprites;
     [SerializeField] private float currentHealth;
     [SerializeField] private PlayerDetect playerDetect;
+    private float attackLayerWeight;
 
     private bool isDie;
 
+    public float AttackLayerWeight
+    {
+        get { return attackLayerWeight; }
+        set { attackLayerWeight = value; }
+    }
 
     public PlayerDetect PlayerDetect
     {
@@ -110,6 +116,15 @@ public abstract class Enemy : MonoBehaviour
     #endregion
 
     #region attack
-    public abstract void Attack();
+    public void Attack()
+    {
+        if (PlayerDetect.CanAttack)
+            AttackLayerWeight = 1;
+        else
+            AttackLayerWeight = 0;
+
+        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), AttackLayerWeight, Time.deltaTime * 5f));
+    }
+
     #endregion
 }

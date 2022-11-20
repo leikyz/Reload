@@ -14,8 +14,7 @@ public class ZombieBoss : Enemy
     }
     void Update()
     {
-        if (PlayerDetect.IsInRange)
-            Attack();
+        Attack();
 
         if (CanChase())
             StartChase();
@@ -26,6 +25,7 @@ public class ZombieBoss : Enemy
         Animator.SetBool("IsDying", IsDie);
         Animator.SetFloat("Distance", DistanceToTarget());
         Animator.SetBool("IsChasing", IsChasing);
+        Animator.SetBool("IsAttacking", PlayerDetect.CanAttack);
 
     }
     public override bool CanChase()
@@ -57,15 +57,10 @@ public class ZombieBoss : Enemy
     public override void Death()
     {
         //Animator.applyRootMotion = false;
-        //ResetTargetChase();
+        ResetTargetChase();
         IsDie = true;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<BoxCollider>().enabled = true;
         GetComponent<CapsuleCollider>().enabled = false;
-    }
-
-    public override void Attack()
-    {
-        Debug.Log("test");
-    }
+    } 
 }

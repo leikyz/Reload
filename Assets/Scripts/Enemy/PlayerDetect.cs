@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class PlayerDetect : MonoBehaviour
 {
-    [SerializeField] private bool isInRange = false;
+    [SerializeField] private bool canAttack = false;
 
-    public bool IsInRange
+    public bool CanAttack
     {
-        get { return isInRange; }
-        set { isInRange = value; }  
+        get { return canAttack; }
+        set { canAttack = value; }  
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) {
-            IsInRange = true;
+            canAttack = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) {
-            IsInRange = false;
+            canAttack = false;
         }
     }
     void Start()
