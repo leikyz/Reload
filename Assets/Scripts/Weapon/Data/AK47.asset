@@ -29,3 +29,4 @@ MonoBehaviour:
   shakeAmplitude: 0.2
   shakeFrequency: 1
   bulletDelay: 0.2
+  damage: 50

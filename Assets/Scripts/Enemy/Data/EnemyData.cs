@@ -7,5 +7,5 @@ public class EnemyData : ScriptableObject
 {
     public string name;
     public EnemyTypeEnum enemyType;
-    public int pointOfLife;
+    public float maxHealth;
 }

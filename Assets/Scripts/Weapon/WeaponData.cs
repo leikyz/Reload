@@ -21,4 +21,5 @@ public class WeaponData : ScriptableObject
     public float shakeAmplitude;
     public float shakeFrequency;
     public float bulletDelay;
+    public int damage;
 }

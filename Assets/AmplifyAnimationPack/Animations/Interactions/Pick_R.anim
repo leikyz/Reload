@@ -56880,13 +56880,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 1
   m_Events:
   - time: 0.792381
-    functionName: AddWeaponToHand
+    functionName: EquipWeapon
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.2666667
+  - time: 0.8333333
     functionName: ResetCanBuildRig
     data: 
     objectReferenceParameter: {fileID: 0}
