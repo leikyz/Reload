@@ -53,17 +53,11 @@ public class PlayerTakingWeapon : MonoBehaviour
         get { return switchLayerWeight; }
         set { switchLayerWeight = value; }
     }
-
-    private void Start()
-    {
-        //rigB.Build();
-    }
-
-
     private void Update()
     {
-        //if (canResetRig)
-        //    rigB.Build();
+        if (canResetRig)
+            rigB.Build();
+
         animator.SetLayerWeight(5, Mathf.Lerp(animator.GetLayerWeight(5), switchLayerWeight, Time.deltaTime * 5f));
         animator.SetLayerWeight(4, Mathf.Lerp(animator.GetLayerWeight(4), pickingLayerWeight, Time.deltaTime * 5f));
         animator.SetBool("IsPicking", isPicking);
@@ -80,8 +74,7 @@ public class PlayerTakingWeapon : MonoBehaviour
             textMeshPro.text = WeaponPickingText(other.gameObject.GetComponent<Weapons>(), weaponInventory);
             // check if a same weapon type is already in weapon inventory, to get one weapon by type in weapon wheel 
             if (Input.GetKey(KeyCode.B))
-            {
-                
+            {                
                 weapon = other.gameObject;
                 pickingLayerWeight = 1;
                 isPicking = true;
@@ -99,21 +92,6 @@ public class PlayerTakingWeapon : MonoBehaviour
                 {
                     weaponInventory.Weapons.Add(other.GetComponent<Weapons>().WeaponData.weaponType, other.GetComponent<Weapons>());
                 }
-
-                //check if weapon is a same weapontype is already equiped, change position of weapon depending on the value (back position or equiped position)
-                //if (playerShooterController.Weapon != null && playerShooterController.Weapon.WeaponData.weaponType == other.GetComponent<WeaponsController>().WeaponData.weaponType)
-                //{
-                //    position = other.GetComponent<Weapons>().EquipedPosition;
-                //playerShooter.Weapon = other.GetComponent<Weapons>();
-                //}
-                //else
-                //{
-                //    position = other.GetComponent<WeaponsController>().BackPosition;
-                //}
-
-                //if (position != null)
-                //    PositionChoice(position, other.gameObject);
-
                 ChangeCharacteristic(other.gameObject);
             }
 
@@ -143,14 +121,6 @@ public class PlayerTakingWeapon : MonoBehaviour
 
     public void AddWeaponToHand(Weapons weapon, Transform leftHGrip, WeaponTypeEnum weaponTypeEnum)
     {
-        //UnequipWeapon();
-        //switchLayerWeight = 1;
-        //rigB.Build();
-        //if (onSwitching == 1)
-        //{
-        //    isSwitching = true;
-        //    switchLayerWeight = 1;
-        //}
             
         // si n'a jamais été équiper, l'ajoute à l'endroit dédier au type d'arme
         if (weapon.gameObject.transform.position != weapon.EquipedPosition.position)
@@ -173,6 +143,7 @@ public class PlayerTakingWeapon : MonoBehaviour
     }
     public void ResetCanBuildRig()
     {
+        //actualise les état concernant le picking et le switching (animation event)
         canResetRig = false;
         isPicking = false;
         isSwitching = false;
@@ -193,26 +164,17 @@ public class PlayerTakingWeapon : MonoBehaviour
 
     public void EquipWeapon(int onSwitch)
     {
+        //si c'est via le switching qu'on prend l'arme, actualise l'arme pour récupérer celle dans l'inventaire
         if (onSwitch == 1)
             weapon = wheelButton.Weapon.gameObject;
 
         AddWeaponToHand(weapon.GetComponent<Weapons>(), leftHandGrip, weapon.GetComponent<Weapons>().WeaponData.weaponType);
-        //PositionChoice(weapon.GetComponent<Weapons>().EquipedPosition, weapon);
-        //playerShooter.IsArmed = true;
-        //isPicking = false;
-        //pickingLayerWeight = 0;
     }
 
     public void AddWeaponToBack()
     {
-        //playerShooter.Weapon.gameObject
-        //if (playerShooter.Weapon == null)
-        //    PositionChoice(weapon.GetComponent<Weapons>().BackPosition, weapon.gameObject);
-        //else
         PositionChoice(playerShooter.Weapon.BackPosition, playerShooter.Weapon.gameObject);
         playerShooter.Weapon = null;
-        playerShooter.IsArmed = false;
-
-      
+        playerShooter.IsArmed = false;     
     }
 } 
