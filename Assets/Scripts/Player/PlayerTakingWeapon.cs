@@ -14,20 +14,44 @@ public class PlayerTakingWeapon : MonoBehaviour
     [SerializeField] private PlayerShooter playerShooter;
     [SerializeField] private TMPro.TextMeshProUGUI textMeshPro;
     [SerializeField] private Transform leftHandGrip;
+    [SerializeField] private WeaponWheelButton wheelButton;
     private float switchLayerWeight;
     private float pickingLayerWeight;
     private bool isPicking;
     private bool isSwitching;
-    private GameObject weapon;
+    [SerializeField] private GameObject weapon;
     [SerializeField] private bool canResetRig;
 
     private Transform position;
     [SerializeField] private RigBuilder rigB;
 
+    public WeaponWheelButton WheelButton
+    {
+        get { return wheelButton; }
+        set { wheelButton = value; }
+    }
+
+    public GameObject Weapon
+    {
+        get { return weapon; }
+        set { weapon = value; }
+    }
     public Transform LeftHandGrip
     {
         get { return leftHandGrip; }
         set { leftHandGrip = value; }
+    }
+
+    public bool IsSwitching
+    {
+        get { return isSwitching; }
+        set { isSwitching = value; }
+    }
+
+    public float SwitchLayerWeight
+    {
+        get { return switchLayerWeight; }
+        set { switchLayerWeight = value; }
     }
 
     private void Start()
@@ -38,8 +62,8 @@ public class PlayerTakingWeapon : MonoBehaviour
 
     private void Update()
     {
-        if (canResetRig)
-            rigB.Build();
+        //if (canResetRig)
+        //    rigB.Build();
         animator.SetLayerWeight(5, Mathf.Lerp(animator.GetLayerWeight(5), switchLayerWeight, Time.deltaTime * 5f));
         animator.SetLayerWeight(4, Mathf.Lerp(animator.GetLayerWeight(4), pickingLayerWeight, Time.deltaTime * 5f));
         animator.SetBool("IsPicking", isPicking);
@@ -117,16 +141,16 @@ public class PlayerTakingWeapon : MonoBehaviour
 
     }
 
-    public void AddWeaponToHand(Weapons weapon, Transform leftHGrip, WeaponTypeEnum weaponTypeEnum, bool onSwitching)
+    public void AddWeaponToHand(Weapons weapon, Transform leftHGrip, WeaponTypeEnum weaponTypeEnum)
     {
         //UnequipWeapon();
         //switchLayerWeight = 1;
         //rigB.Build();
-        if (onSwitching)
-        {
-            isSwitching = true;
-            switchLayerWeight = 1;
-        }
+        //if (onSwitching == 1)
+        //{
+        //    isSwitching = true;
+        //    switchLayerWeight = 1;
+        //}
             
         // si n'a jamais été équiper, l'ajoute à l'endroit dédier au type d'arme
         if (weapon.gameObject.transform.position != weapon.EquipedPosition.position)
@@ -144,7 +168,7 @@ public class PlayerTakingWeapon : MonoBehaviour
         leftHGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;
         playerShooter.IsArmed = true;
         isPicking = false;
-        //canResetRig = true;
+        canResetRig = true;
 
     }
     public void ResetCanBuildRig()
@@ -167,23 +191,16 @@ public class PlayerTakingWeapon : MonoBehaviour
         return sentence;   
     }
 
-    private void EquipWeapon(bool onSwitch)
+    public void EquipWeapon(int onSwitch)
     {
-        AddWeaponToHand(weapon.GetComponent<Weapons>(), leftHandGrip, weapon.GetComponent<Weapons>().WeaponData.weaponType, onSwitch);
+        if (onSwitch == 1)
+            weapon = wheelButton.Weapon.gameObject;
+
+        AddWeaponToHand(weapon.GetComponent<Weapons>(), leftHandGrip, weapon.GetComponent<Weapons>().WeaponData.weaponType);
         //PositionChoice(weapon.GetComponent<Weapons>().EquipedPosition, weapon);
         //playerShooter.IsArmed = true;
         //isPicking = false;
         //pickingLayerWeight = 0;
-    }
-
-    public bool tee(bool onSwtich)
-    {
-        return true;
-    }
-
-    public void test(bool onSwitch)
-    {
-        AddWeaponToHand(weapon.GetComponent<Weapons>(), leftHandGrip, weapon.GetComponent<Weapons>().WeaponData.weaponType, onSwitch);
     }
 
     public void AddWeaponToBack()

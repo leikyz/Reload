@@ -13,8 +13,6 @@ public class WeaponWheel : MonoBehaviour
 
     private float timeOnPressed;
 
-    [SerializeField] private RigBuilder rigB;
-
     public event Action<float> OnTabPressed;
 
     [SerializeField] private float buttonSelected;

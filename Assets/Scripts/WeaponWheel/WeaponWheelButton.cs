@@ -66,8 +66,11 @@ public class WeaponWheelButton : MonoBehaviour
         }
         isSelected = true;
         weaponWheelController.ButtonSelected = Id;
-        //playerSwitchWeapon.EquipWeapon(Weapon, playerSwitchWeapon.LeftHandGrip, weaponType, true);
-      
+        playerSwitchWeapon.IsSwitching = true;
+        playerSwitchWeapon.SwitchLayerWeight = 1;
+        playerSwitchWeapon.WheelButton = this;
+        //playerSwitchWeapon.AddWeaponToHand(Weapon, playerSwitchWeapon.LeftHandGrip, weaponType, 1);
+
     }
 
     public void Deselected()

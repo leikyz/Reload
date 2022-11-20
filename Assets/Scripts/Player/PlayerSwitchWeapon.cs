@@ -11,7 +11,6 @@ public class PlayerSwitchWeapon : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerShooter playerShooter;
-    [SerializeField] private RigBuilder rigB;
     private float switchLayerWeight;
     void Start()
     {
