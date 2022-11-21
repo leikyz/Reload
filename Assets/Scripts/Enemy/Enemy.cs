@@ -116,14 +116,20 @@ public abstract class Enemy : MonoBehaviour
     #endregion
 
     #region attack
+
+    public bool CanAttack() => !isDie;
     public void Attack()
     {
-        if (PlayerDetect.CanAttack)
-            AttackLayerWeight = 1;
-        else
-            AttackLayerWeight = 0;
+        if (CanAttack()) 
+        {
+            if (PlayerDetect.CanAttack)
+                AttackLayerWeight = 1;
+            else
+                AttackLayerWeight = 0;
 
-        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), AttackLayerWeight, Time.deltaTime * 5f));
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), AttackLayerWeight, Time.deltaTime * 5f));
+        }
+       
     }
 
     #endregion
