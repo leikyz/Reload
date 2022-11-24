@@ -63,13 +63,11 @@ public class PlayerTakingWeapon : MonoBehaviour
         animator.SetBool("IsPicking", isPicking);
         animator.SetBool("IsSwitching", isSwitching);
     }
-
     private void OnTriggerStay(Collider other)
     {
 
         if (other.gameObject.CompareTag("Weapon"))
         {
-            
             textMeshPro.gameObject.SetActive(true);
             textMeshPro.text = WeaponPickingText(other.gameObject.GetComponent<Weapons>(), weaponInventory);
             // check if a same weapon type is already in weapon inventory, to get one weapon by type in weapon wheel 
@@ -79,6 +77,7 @@ public class PlayerTakingWeapon : MonoBehaviour
                 pickingLayerWeight = 1;
                 isPicking = true;
                 textMeshPro.gameObject.SetActive(false);
+
 
                 if (weaponInventory.Weapons.ContainsKey(other.GetComponent<Weapons>().WeaponData.weaponType))
                 {
@@ -155,10 +154,10 @@ public class PlayerTakingWeapon : MonoBehaviour
     private string WeaponPickingText(Weapons weapon, WeaponInventory weaponInventory)
     {
    
-        var sentence = "Appuyer sur B pour prendre " + weapon.gameObject.name; ;
+        var sentence = "Press B to pick up " + weapon.gameObject.name; ;
 
         if ((weaponInventory.Weapons.ContainsKey(weapon.WeaponData.weaponType)))
-            sentence += "\n Attention cela remplacera l'arme actuel";
+            sentence += "\n This will replace your actual weapon";
         return sentence;   
     }
 

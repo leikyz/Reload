@@ -21,6 +21,8 @@ public class Weapons : MonoBehaviour
 
     [SerializeField] private ParticleSystem fxShoot;
     [SerializeField] private ParticleSystem fxGround;
+
+    [SerializeField] private TMPro.TextMeshProUGUI textMeshPro;
     private AudioSource audioSource;
 
     private bool isUsed = false;

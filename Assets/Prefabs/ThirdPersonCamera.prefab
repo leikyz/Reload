@@ -26,15 +26,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5215043876774320062}
-  m_LocalRotation: {x: 0.32326594, y: 0, z: 0, w: 0.94630814}
+  m_LocalRotation: {x: 0.3232651, y: 0, z: 0, w: 0.9463085}
   m_LocalPosition: {x: 5.6857295, y: 3.6408577, z: -4.189844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5215043877122993684}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 37.721, y: 0, z: 0}
 --- !u!114 &5215043876774320061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.37
-  m_CameraDistance: 4
+  m_CameraDistance: 8.21
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RecenterTarget: 2
   m_VerticalAxis:
-    Value: 37.7211
+    Value: 30
     m_SpeedMode: 1
     m_MaxSpeed: 0.03
     m_AccelTime: 0.2
@@ -264,7 +264,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
-    Value: 0
+    Value: -30.009018
     m_SpeedMode: 1
     m_MaxSpeed: 0.08
     m_AccelTime: 0.2

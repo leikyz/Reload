@@ -8,4 +8,5 @@ public class EnemyData : ScriptableObject
     public string name;
     public EnemyTypeEnum enemyType;
     public float maxHealth;
+    public float damage;
 }
