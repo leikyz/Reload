@@ -23,6 +23,7 @@ public class PlayerShooter : MonoBehaviour
 
     private Animator animator;
     private PlayerMovement playerMovementController;
+    [SerializeField] private WeaponRecoil weaponRecoil;
 
     [SerializeField] private bool isAiming = false;
     [SerializeField] private bool isShooting = false;
@@ -30,7 +31,7 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] private bool isArmed = false;
     [SerializeField] private WeaponTypeEnum weaponTypeEnumActual;
 
-    private float aimRigWeight = 0;
+    private float aimRigWeight = 1;
     private float armedRigWeight = 0;
     private float leftHandWeight = 0;
 
@@ -107,7 +108,7 @@ public class PlayerShooter : MonoBehaviour
         aimVirtualCamera.gameObject.SetActive(false);
         playerMovementController.RotationSpeed = 5f;
         playerMovementController.RotateOnMove = true;
-        aimRigWeight = 0;
+        //aimRigWeight = 0;
        
     }
 
@@ -145,11 +146,20 @@ public class PlayerShooter : MonoBehaviour
         animator.SetBool("IsArmed", IsArmed);
 
         RotatePlayerOnAimed(MousePosition());
+
+        if (isShooting)
+        {
+            weaponRecoil.Recoil();
+            //weaponRecoil.Back();
+        }
+            
+
         if (isArmed)
         {
             HandleArmed();
             HandleAiming();
             HandleShooting();
+            //weaponRecoil.Back();
         }
     }
 
@@ -157,8 +167,8 @@ public class PlayerShooter : MonoBehaviour
     {
         if (weaponTypeEnumActual == WeaponTypeEnum.ASSAULT_RIFFLE || weaponTypeEnumActual == WeaponTypeEnum.HEAVY_WEAPON)
             armedRigWeight = 1f;
-        else
-            armedRigWeight = 0f;
+        //else
+        //    armedRigWeight = 0f;
 
         if (!isReloading && weaponTypeEnumActual != WeaponTypeEnum.GUN)
             leftHandWeight = 1f;
@@ -196,11 +206,11 @@ public class PlayerShooter : MonoBehaviour
 
         else
         {
-            if (animator.GetLayerWeight(2) != 0 || animator.GetLayerWeight(3) != 0)
-            {
-                animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 0f, Time.deltaTime * 5f));
-                animator.SetLayerWeight(3, Mathf.Lerp(animator.GetLayerWeight(3), 0f, Time.deltaTime * 5f));
-            }
+            //if (animator.GetLayerWeight(2) != 0 || animator.GetLayerWeight(3) != 0)
+            //{
+            //    animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(2), 0f, Time.deltaTime * 5f));
+            //    animator.SetLayerWeight(3, Mathf.Lerp(animator.GetLayerWeight(3), 0f, Time.deltaTime * 5f));
+            //}
 
         }
 

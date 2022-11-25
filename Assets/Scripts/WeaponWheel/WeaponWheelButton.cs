@@ -67,7 +67,6 @@ public class WeaponWheelButton : MonoBehaviour
         isSelected = true;
         weaponWheelController.ButtonSelected = Id;
         playerSwitchWeapon.IsSwitching = true;
-        playerSwitchWeapon.SwitchLayerWeight = 1;
         playerSwitchWeapon.WheelButton = this;
         //playerSwitchWeapon.AddWeaponToHand(Weapon, playerSwitchWeapon.LeftHandGrip, weaponType, 1);
 

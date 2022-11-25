@@ -15,7 +15,8 @@ public class PlayerTakingWeapon : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI textMeshPro;
     [SerializeField] private Transform leftHandGrip;
     [SerializeField] private WeaponWheelButton wheelButton;
-    private float switchLayerWeight;
+    [SerializeField] private WeaponRecoil weaponRecoil;
+
     private float pickingLayerWeight;
     private bool isPicking;
     private bool isSwitching;
@@ -48,17 +49,13 @@ public class PlayerTakingWeapon : MonoBehaviour
         set { isSwitching = value; }
     }
 
-    public float SwitchLayerWeight
-    {
-        get { return switchLayerWeight; }
-        set { switchLayerWeight = value; }
-    }
+ 
     private void Update()
     {
         if (canResetRig)
             rigB.Build();
 
-        animator.SetLayerWeight(5, Mathf.Lerp(animator.GetLayerWeight(5), switchLayerWeight, Time.deltaTime * 5f));
+        //animator.SetLayerWeight(5, Mathf.Lerp(animator.GetLayerWeight(5), switchLayerWeight, Time.deltaTime * 5f));
         animator.SetLayerWeight(4, Mathf.Lerp(animator.GetLayerWeight(4), pickingLayerWeight, Time.deltaTime * 5f));
         animator.SetBool("IsPicking", isPicking);
         animator.SetBool("IsSwitching", isSwitching);
@@ -128,10 +125,12 @@ public class PlayerTakingWeapon : MonoBehaviour
             weapon.gameObject.transform.SetParent(weapon.EquipedPosition);
             weapon.gameObject.transform.position = weapon.EquipedPosition.position;
             weapon.gameObject.transform.rotation = weapon.EquipedPosition.rotation;
+            
         }
 
         // actualise le type / l'arme / le grip de la main gauche et active l'arme
         //animator.SetBool("IsTakingWeapon", true);
+        weaponRecoil.InitialPosition = weapon.GetComponent<Weapons>().EquipedPosition.position;
         playerShooter.WeaponTypeEnumActual = weaponTypeEnum;
         playerShooter.Weapon = weapon;
         leftHGrip.gameObject.GetComponent<TwoBoneIKConstraint>().data.target = weapon.LeftHandGrip;
@@ -147,7 +146,6 @@ public class PlayerTakingWeapon : MonoBehaviour
         isPicking = false;
         isSwitching = false;
         pickingLayerWeight = 0;
-        switchLayerWeight = 0;
         //isPicking = false;
     }
 
